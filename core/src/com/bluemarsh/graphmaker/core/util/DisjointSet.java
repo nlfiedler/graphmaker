@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2007. All Rights Reserved.
+ * are Copyright (C) 1999-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -113,6 +113,7 @@ public class DisjointSet implements Cloneable, List {
         init(objectSet.length);
     }
 
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -142,6 +143,7 @@ public class DisjointSet implements Cloneable, List {
         return true;
     }
 
+    @Override
     public boolean equals(Object o) {
         return o == this;
     }
@@ -179,6 +181,7 @@ public class DisjointSet implements Cloneable, List {
         return objectSet[index];
     }
 
+    @Override
     public int hashCode() {
         return System.identityHashCode(this);
     }
@@ -356,6 +359,7 @@ public class DisjointSet implements Cloneable, List {
         return a;
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("DisjointSet=[");
         sb.append(objectSet[0]);
@@ -510,6 +514,7 @@ public class DisjointSet implements Cloneable, List {
         /**
          * This method is not supported.
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

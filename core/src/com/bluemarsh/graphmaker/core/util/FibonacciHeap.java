@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2007. All Rights Reserved.
+ * are Copyright (C) 1999-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -420,6 +420,7 @@ public class FibonacciHeap {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public String toString() {
         if (min == null) {
             return "FibonacciHeap=[]";
@@ -495,6 +496,7 @@ public class FibonacciHeap {
             left = this;
         }
 
+        @Override
         public String toString() {
             if (true) {
                 return Double.toString(key);
