@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+OpenIDE-Module: com.bluemarsh.graphmaker.ui/1
+OpenIDE-Module-Java-Dependencies: Java > 1.6
+OpenIDE-Module-Layer: com/bluemarsh/graphmaker/ui/layer.xml
+OpenIDE-Module-Localizing-Bundle: com/bluemarsh/graphmaker/ui/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
+Name: com/bluemarsh/graphmaker/ui/GraphDataLoader.class
+OpenIDE-Module-Class: Loader
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $Id: refactor2.html 2890 2007-03-05 09:30:00Z nfiedler $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>GraphMaker 3.0 Design</title>
+  <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h2>3.0 Design Changes</h2>
+
+  <h3>Multiple versus Single Document</h3>
+
+  <p>The most significant change in version 3.0 is the loss of the
+  multiple document interface. Instead, the main window now always
+  contains exactly one document. Instead of multiple document windows,
+  GraphMaker now supports multiple main windows, each with its own menu
+  bar and tool bar.</p>
+
+  <p>The reasons for this are simple. First, it was of little value to
+  the user. Secondly, it was more of a nuisance, design-wise, to
+  implement. Additionally, by always having a document to edit, the
+  actions and commands no longer have to check if a document exists.
+  Finally, the interface is simpler and easier because of this
+  change.</p>
+
+  <h3>Document-centric</h3>
+
+  <p>The design of version 3.0 is now centered around the
+  <code>Document</code> interface. Each main window is associated with
+  a single <code>Document</code> instance, mapped via the utility
+  class, <code>DocumentFrameMapper</code>, defined in the
+  <code>ui</code> package. Previously actions would query the current
+  graph tool for the list of selected elements, whereas now the actions
+  query the document. By eliminating the document group class, this
+  makes the other classes more reliant on the document instance for
+  information about the document.</p>
+
+  <h3>One Format to Rule Them All</h3>
+
+  <p>The 2.x versions of GraphMaker had the novel ability to read and
+  write one of two document formats: GAM and GML. &quot;GAM&quot; stood
+  for Graph Adjacency Matrix, I think, while &quot;GML&quot; stood for
+  Graph Modeling Language (developed by Michael Himsolt). The GAM
+  format was really just a subset of the GML format, and offered only
+  the most basic properties of graph elements. The GML format was quite
+  good in that it was easily extensible and humanly readable. However,
+  the implementation for reading and writing GML was more complicated
+  than it had to be.</p>
+
+  <p>Enter the eXtensible Markup Language, or XML format. This, like
+  GML, is easily extensible and humanly readable. The other primary
+  benefit is that it is easy to parse. JDK 1.4 provides both SAX and
+  DOM XML parsers in the core classes. Thus supporting XML is easy and
+  the code is significantly simpler than the old GML code.</p>
+
+  <p>Thus in version 3.0, only the XML format is supported. See the
+  <code>graph.dtd</code> file in the <code>document</code> package for
+  the exact format.</p>
+</body>
+</html>

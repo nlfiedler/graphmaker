@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $Id: refactor1.html 2890 2007-03-05 09:30:00Z nfiedler $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>GraphMaker - First Refactoring</title>
+  <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h2>First Refactoring</h2>
+
+  <h3>The Old Design</h3>
+
+  <p>It is not difficult to argue that the first version of GraphMaker
+  was poorly designed, from a flexibility standpoint. Many of the
+  components in the program were tightly-coupled and interacted at a
+  much-too-intimate level. Many classes were doing far too many tasks
+  that would ideally have been split among several classes. Here is a
+  break-down of the major problems with the original design:</p>
+
+  <ul>
+    <li><strong>Overloaded:</strong> AdjList class did four distinct
+    tasks: store and manipulate the graph data, draw the graph to the
+    screen, perform high-level operations such as searching, and it
+    also wrote the graph to a GML-formatted file. This is clearly much
+    more than AdjList was ever meant to do.</li>
+
+    <li><strong>Tight-Coupling:</strong> There was a lot of
+    tight-coupling between components. Anytime a search needed to be
+    performed, the search menu class would call on the AdjList via a
+    global reference, then call on the GraphCanvas via another global
+    reference, to make it display the search results. If the graph had
+    to be changed in any way, that meant talking to the AdjList,
+    GraphCanvas, and the GraphFile to get all the necessary tasks
+    complete. This meant the menu classes were directly tied to the
+    other classes, by type, and this reduced flexibility.</li>
+
+    <li><strong>Implementation-Dependent:</strong> Nothing was easily
+    replaceable in the old system. If we wanted to replace the AdjList
+    with an AdjMatrix, we would have had to change all the references
+    to AdjList to be AdjMatrix. What if we wanted to support both data
+    structures simultaneously? We would have had to redesign the
+    application.</li>
+
+    <li><strong>Limited:</strong> The only file format supported was
+    GML. Although GML is a fine file format, what if we wanted to use
+    something else? We&#39;d have to change AdjList to use the new
+    format and also change GraphFile to read the different format.</li>
+  </ul>
+
+  <p>As you can see, the old design was a complete hack. There was
+  nothing good about the old program, except that it worked pretty well
+  from a user standpoint. But looking at it from the inside, it was
+  terrible.</p>
+
+  <h3>Goals Of The Redesign</h3>
+
+  <p>I read a great article about the model-view-controller
+  architecture. Actually it was the <a href=
+  "http://developer.java.sun.com/developer/onlineTraining/GUI/Swing2/index.html">
+  Swing Short Course, Part II</a> but it talked mostly about MVC and
+  how you could use it when writing graphical Java applications. From
+  this I learned that it is important to keep the tasks that each class
+  does to a minimum. For instance, the view should only display data.
+  It shouldn&#39;t store data or perform operations on the data. The
+  examples in this article became the basis for much of the redesign.
+  Using the lessons I&#39;ve learned with the first version of
+  GraphMaker, and what I&#39;d read in the Swing Short Course, I&#39;ve
+  come up with the following set of goals for the redesign:</p>
+
+  <ul>
+    <li><strong>Decouple:</strong> First and foremost in the list of
+    goals is to decouple the key components of the program. No longer
+    can we stand to have the AdjList and GraphCanvas communicate
+    directly, or to have the GraphFile class create new AdjList classes
+    at any time. To accomplish this goal I&#39;ve used classes that act
+    as mediators for the other classes. Instead of the vertex menu
+    telling the GraphCanvas when to redraw, a mediator will listen for
+    changes to the AdjList and tell the canvas to redraw.</li>
+
+    <li><strong>Increase Extendability:</strong> The second most
+    important goal is to make the program extensible. Previously we
+    only supported the GML file format. But now, with the new document
+    structure, we can support any number of file formats. The same is
+    true for the graph data structure. We can now use an adjacency
+    matrix in addition to an adjacency list.</li>
+
+    <li><strong>Increase Flexibility:</strong> Since it is not possible
+    to consider every idea in advance, it is necessary to make the API
+    of the various classes as general as possible. For instance,
+    instead of having the AdjList do the graph searches, we now have a
+    separate classes for this. They are no longer tied to the AdjList
+    internal structure, either. They can work on any class that
+    implements the GraphModel interface. This means the same search
+    classes can work on an AdjList or an AdjMatrix, or any other data
+    structure we decide to use.</li>
+  </ul>
+
+  <h3>Key Components</h3>
+
+  <p>Because we want to use the MVC design pattern to assist us in
+  achieving our goals, this means we&#39;ll have three primary
+  components in the system:</p>
+
+  <ul>
+    <li><strong>Model:</strong> The model is the object which holds the
+    data that is being manipulated in the program. In the case of
+    GraphMaker, the model is the graph data structure. The model should
+    do basically one thing and one thing only: maintain the data. It
+    shouldn&#39;t display the data or handle any user input of any
+    kind. The view and controller take care of that for us.</li>
+
+    <li><strong>View:</strong> The view is responsible only for
+    displaying data in a meaningful format. For GraphMaker, this means
+    drawing ellipses and lines on the screen to visually represent the
+    graph. The view should not be managing the data structure nor
+    should it be handling user input. It only displays some data,
+    nothing more.</li>
+
+    <li><strong>Controller:</strong> The controller is meant to handle
+    user input and cause the model and view to update appropriately. It
+    is often the case that the view and the controller are
+    tightly-integrated and are considered one object. In GraphMaker,
+    the controller is a mediator object that deals with user input and
+    talks to both the view and the model. By doing so we can produce
+    the effect that the user is manipulating a graph visually, even
+    though the data is stored in one class and the image is drawn via
+    another class.</li>
+  </ul>
+
+  <p>All of these components are part of the GraphMaker
+  <strong>document</strong> structure. This is the heart of the
+  program, the object that the user is really working with to
+  manipulate, display, and store a graph. The document acts as a facade
+  for the MVC system and provides the API to the rest of the program
+  for manipulating the graph.</p>
+
+  <h3>Multiple Document Support</h3>
+
+  <p>In this new version of GraphMaker I wanted to support multiple
+  files being opened at the same time. This meant somehow managing
+  multiple document objects. For this I borrowed an idea from GEOS: the
+  &quot;DocumentGroup&quot; object. This object does nothing more than
+  manage multiple documents. It keeps track of which document is
+  currently being worked on and creates and destroys documents as
+  needed.</p>
+
+  <p>The various file-oriented actions will communicate with the
+  <strong>DocumentGroup</strong> object to create new documents and
+  close others. In this way they are delegating the actual document
+  functions to the DocumentGroup. This frees the actions from needing
+  to keep track of the documents themselves. The DocumentGroup sends
+  out &quot;dirty events&quot; to registered listeners, such as the
+  <code>SaveAction</code>. This gives the <code>SaveAction</code> a
+  chance to make the &quot;save&quot; option available, and at the same
+  time disable the option when a clean document is being viewed.<br />
+  The relationship between the DocumentGroup and Document objects is a
+  <strong>one-to-many</strong> relationship. The DocumentGroup can
+  manage any number of document objects, keeping track of which one is
+  currently being viewed. Because the DocumentGroup acts as the keeper
+  for the documents, it is often called upon to act on the current
+  document, rather than the caller acting on the document directly.</p>
+
+  <h3>User Interface</h3>
+
+  <p>Another of the major differences between version 2.0 and version
+  1.0 of GraphMaker is that 2.0 uses the JFC user interface components
+  of Java, while 1.0 used AWT. One of the advantages of JFC is the new
+  standard dialogs. These are dialogs that can be displayed using a
+  single method call, not like AWT where you always had to subclass
+  Dialog to display a simple dialog. Another advantage of JFC is the
+  new &quot;internal frame&quot; class, which is a window that is
+  displayed inside other windows. GraphMaker 2.0 uses this for the
+  document windows which are displayed inside the main window.</p>
+
+  <p>The <code>GraphMaker</code> class gets the program started by
+  creating a new <code>GraphWindow</code> and returning to the JVM
+  (from there the JFC event-dispatching thread is started). This class
+  is a singleton, which means that only one instance of this class ever
+  exists at any one time. It provides some basic services to the rest
+  of the program, such as looking up executable actions and resource
+  strings and images.</p>
+
+  <p>The <code>GraphWindow</code> class manages the multiple document
+  windows. It has API that can create, destroy, and rename the internal
+  windows. This API is used by the file-oriented actions when the user
+  asks to open or close documents. GraphWindow also makes sure the
+  <strong>Window</strong> menu is kept up-to-date with changes in the
+  list of internal windows. The internal windows are just simple
+  JInternalFrame objects that contain JScrollPane objects, which in
+  turn, contain the GraphView object.</p>
+
+  <p>Since it isn&#39;t obvious without looking at the source code,
+  I&#39;ll just briefly cover how the program reacts to user
+  interaction.</p>
+
+  <dl>
+    <dt><strong>Opening documents</strong></dt>
+
+    <dd>The user will select <strong>New</strong> or
+    <strong>Open</strong> from the File menu. The corresponding action
+    object will then ask GraphWindow to create a new internal window.
+    GraphWindow will return a reference to a GraphView object, which
+    the action then passes onto the GraphDocumentGroup when it calls
+    it&#39;s <code>newDocument()</code> or <code>openDocument()</code>
+    methods. GraphDocumentGroup will then create a new document object
+    of the appropriate class (e.g. GMLAdjListDocument for
+    <code>.gml</code> files), passing it the GraphView object. The
+    document object then sets the &quot;document&quot; pointer in the
+    view so the view knows who its document object is (it will be asked
+    for this later by the GraphWindow class).</dd>
+
+    <dt><strong>Closing documents</strong></dt>
+
+    <dd>There are two ways to close a document. First, the user can
+    select the <strong>Close</strong> option from the File menu. The
+    CloseAction object will call GraphWindow, telling it to close the
+    window. But first, the close action will ask the user if the
+    document should be saved, if it is dirty. If yes, the document
+    group will be asked to save the document to disk.<br />
+    The second way to close a document is if the user clicks the close
+    button on the internal window itself. GraphWindow intercepts this
+    and queries the GraphView object for the document pointer. This is
+    passed to the CloseAction to be closed, and saved if
+    necessary.</dd>
+
+    <dt><strong>Searching and Modifying the graph</strong></dt>
+
+    <dd>The various action classes will handle user selection of
+    features. For any operation that requires talking to the document,
+    the action object will query the GraphDocumentGroup for the current
+    document, then talk to the document object. Frequently the action
+    object will create a new command object and pass it to the document
+    object so it can be performed.</dd>
+  </dl>
+</body>
+</html>

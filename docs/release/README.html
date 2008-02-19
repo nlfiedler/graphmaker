@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- $Id: README.html 2890 2007-03-05 09:30:00Z nfiedler $ -->
+
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>GraphMaker README</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h1>README</h1>
+
+  <h2>GraphMaker</h2>
+
+  <p>GraphMaker is a Java application to create graphs consisting of
+  nodes connected by directed and undirected edges, and perform various
+  graph operations on them, such as breadth-first-search and
+  minimum-spanning-tree.</p>
+
+  <h2>Requirements</h2>
+
+  <p>As of version 3.0, GraphMaker requires the Java Runtime
+  Environment version 1.4 or better. It utilizes the preferences and
+  XML parsing classes made available in the core library.</p>
+
+  <h2>Starting GraphMaker</h2>
+
+  <p>Starting the application amounts to invoking a small launcher.
+  There are two possibilities at the moment, depending on your
+  system.</p>
+
+  <h4>Microsoft Windows</h4>
+
+  <p>If you are using Microsoft Windows, you can double-click on the
+  <strong><code>graphmaker.exe</code></strong> launcher in the
+  <code>bin</code> directory, or invoke it from the command line.</p>
+
+  <h4>Unix-like systems</h4>
+
+  <p>On Unix-like systems such as Linux or Solaris, simply invoke the
+  shell script <strong><code>graphmaker</code></strong> in the
+  <code>bin</code> directory.</p>
+
+  <h3>Startup options</h3>
+
+  <p>The GraphMaker launcher is basically a renamed version of the
+  NetBeans Platform launcher, thus it supports the same command-line
+  options. For a list of these options and a brief explanation, invoke
+  the launcher with the <code>--help</code> switch.</p>
+
+  <h2>Documentation</h2>
+
+  <p>The GraphMaker documentation consists of a <a href=
+  "UsersGuide.html">User&#39;s Guide</a>, the built-in help found in
+  the <strong>Help</strong> menu in the main program window.</p>
+
+  <h2>Removing GraphMaker</h2>
+
+  <p>Removing GraphMaker from your system is generally pretty simple.
+  Find the files, wherever it is that you originally put them, and
+  delete them. If you used one of the packaged versions you should
+  remove the package using the appropriate system command. In addition
+  to the program files, there are user settings stored in a directory
+  named <code>.graphmaker</code> in your home directory.</p>
+
+  <h2>Upgrading the JDK</h2>
+
+  <p>If at some point you replace your current JDK installation with a
+  different version, you will need to update the GraphMaker
+  configuration file. This is done by opening the
+  <code>etc/graphmaker.conf</code> file in a text editor and changing
+  the <code>netbeans_jdkhome</code> value to point to the new JDK
+  installation directory. An alternative to editing the configuration
+  file is to pass the <code>--jdkhome</code> option when starting
+  GraphMaker. This option takes a single argument, which is the path to
+  the JDK installation.</p>
+
+  <h2>Getting help</h2>
+
+  <p>For help on using GraphMaker, write an email to the <a href=
+  "mailto:nathanfiedler@gmail.com">author</a>.</p>
+
+  <div style="text-align: center">
+    <small>GraphMaker and related documentation are Copyright &copy;
+    1997-2008</small>
+  </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $Id: compile.html 2908 2007-03-07 09:53:53Z nfiedler $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>GraphMaker - How to Compile, Run, and Debug GraphMaker</title>
+  <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h2>How to Compile, Run, and Debug GraphMaker</h2>
+
+  <p>The following is an abbreviated set of steps for building
+  GraphMaker from source code. If you encounter complications at any
+  point, please refer to the detailed steps given in the following
+  sections.</p>
+
+  <ol>
+    <li><a href="http://java.sun.com/javase/">JDK 6.0</a> must be
+    installed to compile GraphMaker.</li>
+
+    <li><a href="http://www.netbeans.org/">NetBeans IDE 5.5</a> must be
+    installed, as GraphMaker is based on the NetBeans Platform.</li>
+
+    <li>Make the build: <kbd>ant build</kbd></li>
+
+    <li>Run the application: <kbd>ant run</kbd></li>
+  </ol>
+
+  <p>If that worked for you, then you are on your way to developing
+  GraphMaker. However, if there was a problem, continue reading the
+  following sections for detailed information.</p>
+
+  <h3>Installing Required Software</h3>
+
+  <h4>Java Development Kit</h4>
+
+  <p>GraphMaker is written in the Java language, version 6.0. Visit the
+  <a href="http://java.sun.com/javase/">Java SE</a> page and download
+  the release appropriate for your system. After installing the JDK,
+  make sure to add the <code>bin</code> directory to your
+  <code>PATH</code>.</p>
+
+  <h4>Apache Ant</h4>
+
+  <p>Building GraphMaker requires the use of Apache <a href=
+  "http://ant.apache.org/">Ant</a>, a build tool written in Java. In
+  general you should use the latest stable release, but you may find
+  that a slightly older release will work as well. Chances are you will
+  have to set the <code>JAVA_HOME</code> environment variable to point
+  to the JDK installation, and possibly also <code>ANT_HOME</code>,
+  which points to the Ant installation directory.</p>
+
+  <p><em>Alternatively, you can just rely on the Ant version that is
+  bundled with the NetBeans IDE, rather than installing a separate
+  version.</em></p>
+
+  <h4>NetBeans IDE</h4>
+
+  <p>GraphMaker is based on the NetBeans Platform, thus to build
+  GraphMaker you will need to install the <a href=
+  "http://www.netbeans.org/products/ide/">NetBeans IDE</a>. Developing
+  GraphMaker within the NetBeans IDE is highly recommended, as it makes
+  many of the mundane tasks much easier.</p>
+
+  <p>You may also want to download the NetBeans Platform source code
+  and API documentation, which can be found at the URL given above.</p>
+
+  <h3>Building GraphMaker</h3>
+
+  <p>Once the JDK and NetBeans are installed, you are ready to build
+  GraphMaker. Invoke the <em>build</em> target on the
+  <code>build.xml</code> in the root of the source tree. This will
+  compile all of the modules and produce the GraphMaker modules.</p>
+  <pre>
+ant build
+</pre>
+
+  <h3>Running GraphMaker</h3>
+
+  <p>Invoke the <em>run</em> target of the top-level
+  <code>build.xml</code> file. You should soon see the GraphMaker
+  splash screen followed by the main window.</p>
+  <pre>
+ant run
+</pre>
+
+  <h3>Debugging GraphMaker</h3>
+
+  <p>Invoke the <em>debug</em> target of the top-level
+  <code>build.xml</code> file. The application will start in debug mode
+  and the IDE debugger will be connected to it automatically. <em>Note
+  that this target only works inside the NetBeans IDE.</em></p>
+  <pre>
+ant debug
+</pre>
+</body>
+</html>

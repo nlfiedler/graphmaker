@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $Id: refactor3.html 2890 2007-03-05 09:30:00Z nfiedler $ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+
+  <title>Completely Rewriting GraphMaker</title>
+  <link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h2>Completely Rewriting GraphMaker</h2>
+
+  <h3>NetBeans Refactoring</h3>
+
+  <p>The most significant change in the history of GraphMaker came when
+  it was completely rewritten from scratch, to run on the <a href=
+  "http://www.netbeans.org/">NetBeans Platform</a>. The Platform is the
+  basis for the NetBeans IDE, and makes for a very good Rich Client
+  Platform for graphical applications, such as GraphMaker.</p>
+
+  <p>NetBeans also happens to provide a very nice graphing framework
+  for drawing widgets and handling user input. This is the basis for
+  the graphical editor in GraphMaker.</p>
+
+  <h3>True Modules</h3>
+
+  <p>Because NetBeans is really just a tiny core library and a large
+  set of modules, GraphMaker itself had to be written as a set of
+  modules. Naturally this lends itself well to &quot;modular&quot;
+  design, since it enforces the notion of separating interface from
+  implementation.</p>
+
+  <p>At the core of GraphMaker is the &quot;core&quot; module, which
+  implements the graph model and other low-level functionality that is
+  used by the rest of the application. This module is easily unit
+  tested because it does not rely on any user interface components, and
+  subsequently is of very high quality.</p>
+
+  <h3>Data Format</h3>
+
+  <p>The graph model data format had changed once or twice in the past,
+  so naturally it was time to change it again. The default format is
+  now based on the JavaBeans <code>XMLEncoder</code> class, which
+  persists Java Beans to an XML file. The reason this was chosen over a
+  custom format is that it is extremely easy to implement, and it is
+  very robust. Because the file consists of instructions for invoking
+  the public API of Java Beans, it tends to remain stable for a very
+  long time. This differs greatly, in that respect, from the normal
+  object serialization used for RMI and short-term persistence.</p>
+</body>
+</html>
