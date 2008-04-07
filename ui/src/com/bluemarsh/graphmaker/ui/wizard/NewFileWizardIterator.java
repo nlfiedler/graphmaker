@@ -116,7 +116,8 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
         return panels;
     }
 
-    public Panel current() {
+    @SuppressWarnings("unchecked")
+    public Panel<WizardDescriptor> current() {
         return getPanels()[index];
     }
 
