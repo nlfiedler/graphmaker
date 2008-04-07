@@ -456,9 +456,9 @@ public class FibonacciHeap {
 
     /**
      * Implements a node of the Fibonacci heap. It holds the information
-     * necessary for maintaining the structure of the heap. It also holds
-     * the reference to the data element and key value (which is used to
-     * determine the heap structure).
+     * necessary for maintaining the structure of the heap. It acts as
+     * an opaque token for the data element, and serves as the key to
+     * retrieving the data from the heap.
      *
      * @author  Nathan Fiedler
      */
