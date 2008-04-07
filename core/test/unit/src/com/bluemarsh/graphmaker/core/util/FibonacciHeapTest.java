@@ -48,6 +48,9 @@ public class FibonacciHeapTest extends TestCase {
     }
 
     public void test_FibonacciHeap() {
+        // TODO: add unit tests for the following public methods
+        // toString
+        // union
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());

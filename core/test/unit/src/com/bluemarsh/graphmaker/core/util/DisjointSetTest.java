@@ -47,6 +47,23 @@ public class DisjointSetTest extends TestCase {
     }
 
     public void test_DisjointSet() {
+        // TODO: write unit tests for the following public methods
+        // clone
+        // contains
+        // containsAll
+        // equals
+        // get
+        // hashCode
+        // indexOf
+        // iterator
+        // lastIndexOf
+        // listIterator
+        // numberOfElements
+        // numberOfTrees
+        // size
+        // subList
+        // toArray
+        // toString
         DisjointSet set = new DisjointSet(10);
         assertTrue(set.isEmpty());
         set.set(0, new Integer(1));
