@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -24,6 +24,7 @@
 package com.bluemarsh.graphmaker.core.util;
 
 import java.util.Hashtable;
+import java.util.Random;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -47,10 +48,12 @@ public class FibonacciHeapTest extends TestCase {
         junit.textui.TestRunner.run(suite());
     }
 
-    public void test_FibonacciHeap() {
-        // TODO: add unit tests for the following public methods
-        // toString
-        // union
+    /**
+     * Inserts a set of elements, decreases some of their keys, then
+     * extracts them by key order and ensures everything comes out
+     * in the order expected.
+     */
+    public void test_Correctness() {
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
@@ -85,5 +88,77 @@ public class FibonacciHeapTest extends TestCase {
         heap.clear();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
+    }
+
+    /**
+     * This is a stress test that inserts numerous random elements and
+     * ensures that they come out in increasing order by value. This
+     * extreme case uncovered multiple bugs in nearly every public
+     * implementation of fibonacci heap.
+     */
+    public void test_InsertRemoveMin() {
+        FibonacciHeap heap = new FibonacciHeap();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+        // Insert a known minimum value.
+        heap.insert(new Integer(1), 1);
+        // Insert a lot of random numbers.
+        Random random = new Random();
+        for (int ii = 0; ii <= 50000; ii++) {
+            int r = random.nextInt();
+            if (r < 0) {
+                // Insure only positive values are stored.
+                r = r + Integer.MAX_VALUE;
+            }
+            heap.insert(new Integer(r), r);
+        }
+        // Ensure the numbers come out in increasing order.
+        int ii = 1;
+        while (!heap.isEmpty()) {
+            Integer v = (Integer) heap.removeMin();
+            int vi = v.intValue();
+            assertTrue(vi >= ii);
+            ii = vi;
+        }
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+    }
+
+    public void test_Union() {
+        FibonacciHeap heap1 = new FibonacciHeap();
+        assertTrue(heap1.isEmpty());
+        assertEquals(0, heap1.size());
+        heap1.insert(new Integer(1), 1);
+        heap1.insert(new Integer(2), 2);
+        heap1.insert(new Integer(3), 3);
+        heap1.insert(new Integer(4), 4);
+        heap1.insert(new Integer(5), 5);
+        assertFalse(heap1.isEmpty());
+        assertEquals(5, heap1.size());
+        FibonacciHeap heap2 = new FibonacciHeap();
+        assertTrue(heap2.isEmpty());
+        assertEquals(0, heap2.size());
+        heap2.insert(new Integer(6), 6);
+        heap2.insert(new Integer(7), 7);
+        heap2.insert(new Integer(8), 8);
+        heap2.insert(new Integer(9), 9);
+        heap2.insert(new Integer(10), 10);
+        assertFalse(heap2.isEmpty());
+        assertEquals(5, heap2.size());
+        FibonacciHeap joined = FibonacciHeap.union(heap1, heap2);
+        assertFalse(joined.isEmpty());
+        assertEquals(10, joined.size());
+        Integer v = (Integer) joined.removeMin();
+        int vi = v.intValue();
+        int ii = 1;
+        assertTrue(vi == ii);
+        while (!joined.isEmpty()) {
+            v = (Integer) joined.removeMin();
+            vi = v.intValue();
+            assertTrue(vi > ii);
+            ii = vi;
+        }
+        assertTrue(joined.isEmpty());
+        assertEquals(0, joined.size());
     }
 }
