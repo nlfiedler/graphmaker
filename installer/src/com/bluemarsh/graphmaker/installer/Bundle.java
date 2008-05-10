@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: Bundle.java 2698 2006-12-26 08:01:41Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.installer;

@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: ZoomManager.java 2871 2007-03-02 09:59:08Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.ui.editor;

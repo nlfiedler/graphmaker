@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: DefaultEdgeNode.java 2868 2007-03-02 07:57:35Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.ui.nodes;

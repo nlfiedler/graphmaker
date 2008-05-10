@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: FibonacciHeap.java 2915 2007-03-08 08:40:49Z nfiedler $
+ * $Id$
  */
 package com.bluemarsh.graphmaker.core.util;
 

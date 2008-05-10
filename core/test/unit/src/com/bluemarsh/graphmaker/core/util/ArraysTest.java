@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: ArraysTest.java 2867 2007-03-02 07:57:15Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.core.util;

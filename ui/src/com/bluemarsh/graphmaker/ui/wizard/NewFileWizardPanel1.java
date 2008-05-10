@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: NewFileWizardPanel1.java 2858 2007-02-26 09:05:03Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.ui.wizard;

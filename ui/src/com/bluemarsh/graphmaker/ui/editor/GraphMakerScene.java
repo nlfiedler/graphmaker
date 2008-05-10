@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: GraphMakerScene.java 2907 2007-03-07 09:42:43Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.ui.editor;

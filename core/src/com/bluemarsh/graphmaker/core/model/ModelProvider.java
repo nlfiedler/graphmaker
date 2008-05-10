@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: ModelProvider.java 2908 2007-03-07 09:53:53Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.core.model;

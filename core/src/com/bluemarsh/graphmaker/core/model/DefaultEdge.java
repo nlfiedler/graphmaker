@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: DefaultEdge.java 2866 2007-03-02 07:57:01Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.core.model;

@@ -18,7 +18,7 @@
  *
  * Contributor(s): Nathan L. Fiedler.
  *
- * $Id: JdkVerifier.java 2837 2007-02-22 07:35:40Z nfiedler $
+ * $Id$
  */
 
 package com.bluemarsh.graphmaker.installer;
