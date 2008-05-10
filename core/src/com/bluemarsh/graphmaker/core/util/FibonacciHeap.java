@@ -22,8 +22,6 @@
  */
 package com.bluemarsh.graphmaker.core.util;
 
-import java.util.Stack;
-
 /**
  * This class implements a Fibonacci heap data structure. Much of the
  * code in this class is based on the algorithms in Chapter 21 of the
@@ -42,9 +40,8 @@ import java.util.Stack;
  * @author  Nathan Fiedler
  */
 public class FibonacciHeap {
-
     /** Points to the minimum node in the heap. */
-    private Entry min;
+    private Node min;
     /** Number of nodes in the heap. If the type is ever widened,
      * (e.g. changed to long) then recalcuate the maximum degree
      * value used in the consolidate() method. */
@@ -54,12 +51,12 @@ public class FibonacciHeap {
      * Performs a cascading cut operation. This cuts y from its parent
      * and then does the same for its parent, and so on up the tree.
      *
-     * <p>Running time: O(log n); O(1) excluding the recursion.</p>
+     * <p><em>Running time: O(log n)</em></p>
      *
      * @param  y  node to perform cascading cut on
      */
-    private void cascadingCut(Entry y) {
-        Entry z = y.parent;
+    private void cascadingCut(Node y) {
+        Node z = y.parent;
         // if there's a parent...
         if (z != null) {
             if (y.mark) {
@@ -76,6 +73,8 @@ public class FibonacciHeap {
 
     /**
      * Removes all elements from this heap.
+     *
+     * <p><em>Running time: O(1)</em></p>
      */
     public void clear() {
         min = null;
@@ -93,21 +92,21 @@ public class FibonacciHeap {
         // The magic 45 comes from log base phi of Integer.MAX_VALUE,
         // which is the most elements we will ever hold, and log base
         // phi represents the largest degree of any root list node.
-        Entry[] A = new Entry[45];
+        Node[] A = new Node[45];
 
         // For each root list node look for others of the same degree.
-        Entry start = min;
-        Entry w = min;
+        Node start = min;
+        Node w = min;
         do {
-            Entry x = w;
+            Node x = w;
             // Because x might be moved, save its sibling now.
-            Entry nextW = w.right;
+            Node nextW = w.right;
             int d = x.degree;
             while (A[d] != null) {
                 // Make one of the nodes a child of the other.
-                Entry y = A[d];
+                Node y = A[d];
                 if (x.key > y.key) {
-                    Entry temp = y;
+                    Node temp = y;
                     y = x;
                     x = temp;
                 }
@@ -135,7 +134,7 @@ public class FibonacciHeap {
         } while (w != start);
 
         // Find the minimum key again.
-        for (Entry a : A) {
+        for (Node a : A) {
             if (a != null && a.key < min.key) {
                 min = a;
             }
@@ -146,12 +145,12 @@ public class FibonacciHeap {
      * The reverse of the link operation: removes x from the child
      * list of y. This method assumes that min is non-null.
      *
-     * <p>Running time: O(1)</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @param  x  child of y to be removed from y's child list
      * @param  y  parent of x about to lose a child
      */
-    private void cut(Entry x, Entry y) {
+    private void cut(Node x, Node y) {
         // remove x from childlist of y and decrement degree[y]
         x.left.right = x.right;
         x.right.left = x.left;
@@ -178,14 +177,14 @@ public class FibonacciHeap {
      * to take on. The structure of the heap may be changed, but will
      * not be consolidated.
      *
-     * <p>Running time: O(1) amortized</p>
+     * <p><em>Running time: O(1) amortized</em></p>
      *
      * @param  x  node to decrease the key of
      * @param  k  new key value for node x
      * @exception  IllegalArgumentException
      *             if k is larger than x.key value.
      */
-    public void decreaseKey(Entry x, double k) {
+    public void decreaseKey(Node x, double k) {
         decreaseKey(x, k, false);
     }
 
@@ -197,12 +196,12 @@ public class FibonacciHeap {
      * @param  k       new key value for node x.
      * @param  delete  true if deleting node (in which case, k is ignored).
      */
-    private void decreaseKey(Entry x, double k, boolean delete) {
+    private void decreaseKey(Node x, double k, boolean delete) {
         if (!delete && k > x.key) {
             throw new IllegalArgumentException("cannot increase key value");
         }
         x.key = k;
-        Entry y = x.parent;
+        Node y = x.parent;
         if (y != null && (delete || k < y.key)) {
             cut(x, y);
             cascadingCut(y);
@@ -216,11 +215,11 @@ public class FibonacciHeap {
      * Deletes a node from the heap given the reference to the node.
      * The trees in the heap will be consolidated, if necessary.
      *
-     * <p>Running time: O(log n) amortized.</p>
+     * <p><em>Running time: O(log n) amortized</em></p>
      *
      * @param  x  node to remove from heap.
      */
-    public void delete(Entry x) {
+    public void delete(Node x) {
         // make x as small as possible
         decreaseKey(x, 0, true);
         // remove the smallest, which decreases n also
@@ -231,7 +230,7 @@ public class FibonacciHeap {
      * Tests if the Fibonacci heap is empty or not. Returns true if
      * the heap is empty, false otherwise.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @return  true if the heap is empty, false otherwise.
      */
@@ -244,14 +243,14 @@ public class FibonacciHeap {
      * is performed at this time, the new node is simply inserted into
      * the root list of this heap.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @param  x    data object to insert into heap.
      * @param  key  key value associated with data object.
      * @return newly created heap node.
      */
-    public Entry insert(Object x, double key) {
-        Entry node = new Entry(x, key);
+    public Node insert(Object x, double key) {
+        Node node = new Node(x, key);
         // concatenate node into min list
         if (min != null) {
             node.right = min;
@@ -271,12 +270,12 @@ public class FibonacciHeap {
     /**
      * Make node y a child of node x.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @param  y  node to become child
      * @param  x  node to become parent
      */
-    private void link(Entry y, Entry x) {
+    private void link(Node y, Node x) {
         // remove y from its circular list
         y.left.right = y.right;
         y.right.left = y.left;
@@ -302,11 +301,11 @@ public class FibonacciHeap {
      * Returns the smallest element in the heap. This smallest element
      * is the one with the minimum key value.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @return  heap node with the smallest key, or null if empty.
      */
-    public Entry min() {
+    public Node min() {
         return min;
     }
 
@@ -314,14 +313,14 @@ public class FibonacciHeap {
      * Removes the smallest element from the heap. This will cause
      * the trees in the heap to be consolidated, if necessary.
      *
-     * <p>Running time: O(log n) amortized.</p>
+     * <p><em>Running time: O(log n) amortized</em></p>
      *
      * @return  data object with the smallest key.
      * @throws  NoSuchElementException
      *          if the heap is empty.
      */
     public Object removeMin() {
-        Entry z = min;
+        Node z = min;
         if (z == null) {
             return null;
         }
@@ -329,12 +328,12 @@ public class FibonacciHeap {
         if (z.child != null) {
             // set parent[x] to null
             z.child.parent = null;
-            for (Entry x = z.child.right; x != z.child; x = x.right) {
+            for (Node x = z.child.right; x != z.child; x = x.right) {
                 x.parent = null;
             }
             // merge the children into root list
-            Entry minleft = min.left;
-            Entry zchildleft = z.child.left;
+            Node minleft = min.left;
+            Node zchildleft = z.child.left;
             min.left = zchildleft;
             zchildleft.right = min;
             z.child.left = minleft;
@@ -358,7 +357,7 @@ public class FibonacciHeap {
      * Returns the size of the heap which is measured in the
      * number of elements contained in the heap.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @return  number of elements in the heap.
      */
@@ -370,7 +369,7 @@ public class FibonacciHeap {
      * Joins two Fibonacci heaps into a new one. No heap consolidation is
      * performed at this time. The two root lists are simply joined together.
      *
-     * <p>Running time: O(1) actual.</p>
+     * <p><em>Running time: O(1)</em></p>
      *
      * @param  H1  first heap
      * @param  H2  second heap
@@ -398,64 +397,27 @@ public class FibonacciHeap {
         return H;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public String toString() {
-        if (min == null) {
-            return "FibonacciHeap=[]";
-        }
-        // create a new stack and put root on it
-        Stack stack = new Stack();
-        stack.push(min);
-
-        StringBuffer buf = new StringBuffer(512);
-        buf.append("FibonacciHeap=[");
-        // do a simple breadth-first traversal on the tree
-        while (!stack.empty()) {
-            Entry curr = (Entry) stack.pop();
-            buf.append(curr);
-            buf.append(", ");
-            if (curr.child != null) {
-                stack.push(curr.child);
-            }
-            Entry start = curr;
-            curr = curr.right;
-            while (curr != start) {
-                buf.append(curr);
-                buf.append(", ");
-                if (curr.child != null) {
-                    stack.push(curr.child);
-                }
-                curr = curr.right;
-            }
-        }
-        buf.append(']');
-        return buf.toString();
-    }
-
     /**
      * Implements a node of the Fibonacci heap. It holds the information
      * necessary for maintaining the structure of the heap. It acts as
-     * an opaque token for the data element, and serves as the key to
+     * an opaque handle for the data element, and serves as the key to
      * retrieving the data from the heap.
      *
      * @author  Nathan Fiedler
      */
-    public static class Entry { // TODO: rename to Node again
-
-
+    public static class Node {
         /** Data object for this node, holds the key value. */
         private Object data;
         /** Key value for this node. */
         private double key;
         /** Parent node. */
-        private Entry parent;
+        private Node parent;
         /** First child node. */
-        private Entry child;
+        private Node child;
         /** Right sibling node. */
-        private Entry right;
+        private Node right;
         /** Left sibling node. */
-        private Entry left;
+        private Node left;
         /** Number of children of this node. */
         private int degree;
         /** True if this node has had a child removed since this node was
@@ -470,50 +432,11 @@ public class FibonacciHeap {
          * @param  data  data object to associate with this node
          * @param  key   key value for this data object
          */
-        public Entry(Object data, double key) {
+        public Node(Object data, double key) {
             this.data = data;
             this.key = key;
             right = this;
             left = this;
-        }
-
-        @Override
-        public String toString() {
-            if (true) {
-                return Double.toString(key);
-            } else {
-                StringBuffer buf = new StringBuffer();
-                buf.append("Node=[parent = ");
-                if (parent != null) {
-                    buf.append(Double.toString(parent.key));
-                } else {
-                    buf.append("---");
-                }
-                buf.append(", key = ");
-                buf.append(Double.toString(key));
-                buf.append(", degree = ");
-                buf.append(Integer.toString(degree));
-                buf.append(", right = ");
-                if (right != null) {
-                    buf.append(Double.toString(right.key));
-                } else {
-                    buf.append("---");
-                }
-                buf.append(", left = ");
-                if (left != null) {
-                    buf.append(Double.toString(left.key));
-                } else {
-                    buf.append("---");
-                }
-                buf.append(", child = ");
-                if (child != null) {
-                    buf.append(Double.toString(child.key));
-                } else {
-                    buf.append("---");
-                }
-                buf.append(']');
-                return buf.toString();
-            }
         }
     }
 }

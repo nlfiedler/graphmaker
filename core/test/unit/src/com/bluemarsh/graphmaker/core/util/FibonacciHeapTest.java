@@ -57,15 +57,15 @@ public class FibonacciHeapTest extends TestCase {
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
-        Hashtable<Integer, FibonacciHeap.Entry> entries =
-                new Hashtable<Integer, FibonacciHeap.Entry>();
+        Hashtable<Integer, FibonacciHeap.Node> entries =
+                new Hashtable<Integer, FibonacciHeap.Node>();
         for (int ii = 100; ii < 200; ii++) {
             Integer it = new Integer(ii);
             entries.put(it, heap.insert(it, ii));
         }
         assertFalse(heap.isEmpty());
         assertEquals(100, heap.size());
-        FibonacciHeap.Entry entry = entries.get(new Integer(110));
+        FibonacciHeap.Node entry = entries.get(new Integer(110));
         heap.decreaseKey(entry, 50);
         entry = entries.get(new Integer(140));
         heap.decreaseKey(entry, 25);
