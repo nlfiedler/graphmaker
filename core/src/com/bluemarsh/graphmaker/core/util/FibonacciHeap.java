@@ -324,11 +324,11 @@ public class FibonacciHeap {
         if (z == null) {
             return null;
         }
-        // for each child of z do...
         if (z.child != null) {
-            // set parent[x] to null
             z.child.parent = null;
+            // for each child of z do...
             for (Node x = z.child.right; x != z.child; x = x.right) {
+                // set parent[x] to null
                 x.parent = null;
             }
             // merge the children into root list
