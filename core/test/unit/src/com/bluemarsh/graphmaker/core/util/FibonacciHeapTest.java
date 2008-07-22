@@ -91,6 +91,84 @@ public class FibonacciHeapTest extends TestCase {
     }
 
     /**
+     * Test a heap consisting of all duplicate keys.
+     */
+    public void test_Duplicates() {
+        FibonacciHeap heap = new FibonacciHeap();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+        // Insert entries with duplicate keys.
+        double key = Double.MIN_NORMAL;
+        for (int ii = 1; ii < 1001; ii++) {
+            Integer it = new Integer(ii);
+            heap.insert(it, key);
+        }
+        assertFalse(heap.isEmpty());
+        assertEquals(1000, heap.size());
+        Object o = heap.removeMin();
+        assertTrue(o instanceof Integer);
+        assertFalse(heap.isEmpty());
+        assertEquals(999, heap.size());
+        heap.clear();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+    }
+
+    /**
+     * Test a heap consisting of all duplicate keys, except for one
+     * whose value is greater than the others.
+     */
+    public void test_Duplicates_Larger() {
+        FibonacciHeap heap = new FibonacciHeap();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+        // Insert entries with duplicate keys.
+        double key = 0.0d;
+        for (int ii = 1; ii < 1000; ii++) {
+            Integer it = new Integer(ii);
+            heap.insert(it, key);
+        }
+        heap.insert(new Integer(1001), Double.MIN_NORMAL);
+        assertFalse(heap.isEmpty());
+        assertEquals(1000, heap.size());
+        Object o = heap.removeMin();
+        assertTrue(o instanceof Integer);
+        assertTrue(((Integer) o).intValue() < 1001);
+        assertFalse(heap.isEmpty());
+        assertEquals(999, heap.size());
+        heap.clear();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+    }
+
+    /**
+     * Test a heap consisting of all duplicate keys, except for one
+     * whose value is less than the others.
+     */
+    public void test_Duplicates_Smaller() {
+        FibonacciHeap heap = new FibonacciHeap();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+        // Insert entries with duplicate keys.
+        double key = Double.MIN_NORMAL;
+        for (int ii = 1; ii < 1000; ii++) {
+            Integer it = new Integer(ii);
+            heap.insert(it, key);
+        }
+        heap.insert(new Integer(1001), 0.0d);
+        assertFalse(heap.isEmpty());
+        assertEquals(1000, heap.size());
+        Object o = heap.removeMin();
+        assertTrue(o instanceof Integer);
+        assertTrue(o.equals(new Integer(1001)));
+        assertFalse(heap.isEmpty());
+        assertEquals(999, heap.size());
+        heap.clear();
+        assertTrue(heap.isEmpty());
+        assertEquals(0, heap.size());
+    }
+
+    /**
      * This is a stress test that inserts numerous random elements and
      * ensures that they come out in increasing order by value. This
      * extreme case uncovered multiple bugs in nearly every public
