@@ -316,8 +316,6 @@ public class FibonacciHeap {
      * <p><em>Running time: O(log n) amortized</em></p>
      *
      * @return  data object with the smallest key.
-     * @throws  NoSuchElementException
-     *          if the heap is empty.
      */
     public Object removeMin() {
         Node z = min;
