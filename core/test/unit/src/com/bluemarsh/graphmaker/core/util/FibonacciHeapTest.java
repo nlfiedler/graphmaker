@@ -182,7 +182,7 @@ public class FibonacciHeapTest extends TestCase {
         heap.insert(new Integer(1), 1);
         // Insert a lot of random numbers.
         Random random = new Random();
-        for (int ii = 0; ii <= 50000; ii++) {
+        for (int ii = 1; ii <= 49999; ii++) {
             int r = random.nextInt();
             if (r < 0) {
                 // Insure only positive values are stored.
@@ -190,14 +190,19 @@ public class FibonacciHeapTest extends TestCase {
             }
             heap.insert(new Integer(r), r);
         }
+        assertEquals(50000, heap.size());
         // Ensure the numbers come out in increasing order.
         int ii = 1;
+        int count = 0;
         while (!heap.isEmpty()) {
             Integer v = (Integer) heap.removeMin();
+            count++;
             int vi = v.intValue();
             assertTrue(vi >= ii);
             ii = vi;
         }
+        // Ensure no elements were lost on the way out.
+        assertEquals(50000, count);
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
     }
