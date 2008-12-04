@@ -133,6 +133,8 @@ public class FibonacciHeap {
             w = nextW;
         } while (w != start);
 
+        // The node considered to be min may have been changed above.
+        min = start;
         // Find the minimum key again.
         for (Node a : A) {
             if (a != null && a.key < min.key) {
