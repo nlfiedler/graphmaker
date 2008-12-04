@@ -43,8 +43,8 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import org.netbeans.api.visual.widget.Scene;
+import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
 
 /**
  * Manages the zoom level for a particular Scene instance.
@@ -88,7 +88,7 @@ public class ZoomManager {
      *
      * @param  listener  listener to be added.
      */
-    public void addZoomListener(ZoomListener listener) {
+    private void addZoomListener(ZoomListener listener) {
         listeners.add(ZoomListener.class, listener);
     }
 
@@ -190,7 +190,7 @@ public class ZoomManager {
      *
      * @param  listener  listener to be removed.
      */
-    public void removeZoomListener(ZoomListener listener) {
+    private void removeZoomListener(ZoomListener listener) {
         listeners.remove(ZoomListener.class, listener);
     }
 
@@ -348,6 +348,7 @@ public class ZoomManager {
                 str = value + "%";
             }
 
+            @Override
             public boolean equals(Object o) {
                 if (o instanceof Value) {
                     return value == ((Value) o).getValue();
@@ -355,6 +356,7 @@ public class ZoomManager {
                 return false;
             }
 
+            @Override
             public int hashCode() {
                 return value;
             }
@@ -368,6 +370,7 @@ public class ZoomManager {
                 return value;
             }
 
+            @Override
             public String toString() {
                 return str;
             }
@@ -492,7 +495,7 @@ public class ZoomManager {
             this.manager = manager;
             String path = NbBundle.getMessage(FitDiagramAction.class,
                     "IMG_FitDiagramAction");
-            Image img = Utilities.loadImage(path);
+            Image img = ImageUtilities.loadImage(path);
             if (img != null) {
                 putValue(Action.SMALL_ICON, new ImageIcon(img));
             }
@@ -540,7 +543,7 @@ public class ZoomManager {
             this.manager = manager;
             String path = NbBundle.getMessage(FitWidthAction.class,
                     "IMG_FitWidthAction");
-            Image img = Utilities.loadImage(path);
+            Image img = ImageUtilities.loadImage(path);
             if (img != null) {
                 putValue(Action.SMALL_ICON, new ImageIcon(img));
             }
@@ -585,7 +588,7 @@ public class ZoomManager {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomDefaultAction.class,
                     "IMG_ZoomDefaultAction");
-            Image img = Utilities.loadImage(path);
+            Image img = ImageUtilities.loadImage(path);
             if (img != null) {
                 putValue(Action.SMALL_ICON, new ImageIcon(img));
             }
@@ -619,7 +622,7 @@ public class ZoomManager {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomInAction.class,
                     "IMG_ZoomInAction");
-            Image img = Utilities.loadImage(path);
+            Image img = ImageUtilities.loadImage(path);
             if (img != null) {
                 putValue(Action.SMALL_ICON, new ImageIcon(img));
             }
@@ -660,7 +663,7 @@ public class ZoomManager {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomOutAction.class,
                     "IMG_ZoomOutAction");
-            Image img = Utilities.loadImage(path);
+            Image img = ImageUtilities.loadImage(path);
             if (img != null) {
                 putValue(Action.SMALL_ICON, new ImageIcon(img));
             }

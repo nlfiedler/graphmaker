@@ -29,8 +29,8 @@ import java.beans.IntrospectionException;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
+import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
 
 /**
  * BeanInfo for the GraphDataLoader class.
@@ -48,7 +48,7 @@ public class GraphDataLoaderBeanInfo extends SimpleBeanInfo {
     private static BeanDescriptor getBdescriptor(){
 //GEN-HEADEREND:BeanDescriptor
 
-        BeanDescriptor beanDescriptor = new BeanDescriptor(GraphDataLoader.class, null);
+        beanDescriptor = new BeanDescriptor(GraphDataLoader.class, null);
         beanDescriptor.setDisplayName(NbBundle.getMessage(
                 GraphDataLoaderBeanInfo.class, "LBL_GraphDataLoader_DisplayName"));
         beanDescriptor.setShortDescription(NbBundle.getMessage(
@@ -61,7 +61,7 @@ public class GraphDataLoaderBeanInfo extends SimpleBeanInfo {
     private static PropertyDescriptor[] getPdescriptor(){
 //GEN-HEADEREND:Properties
 
-        PropertyDescriptor[] properties = new PropertyDescriptor[3];
+        properties = new PropertyDescriptor[3];
         try {
             properties[PROPERTY_extensions] = new PropertyDescriptor(
                     "extensions", GraphDataLoader.class,
@@ -128,35 +128,42 @@ public class GraphDataLoaderBeanInfo extends SimpleBeanInfo {
 //GEN-FIRST:Superclass
 //GEN-LAST:Superclass
 
+    @Override
     public BeanDescriptor getBeanDescriptor() {
         return getBdescriptor();
     }
 
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         return getPdescriptor();
     }
 
+    @Override
     public EventSetDescriptor[] getEventSetDescriptors() {
         return getEdescriptor();
     }
 
+    @Override
     public MethodDescriptor[] getMethodDescriptors() {
         return getMdescriptor();
     }
 
+    @Override
     public int getDefaultPropertyIndex() {
         return defaultPropertyIndex;
     }
 
+    @Override
     public int getDefaultEventIndex() {
         return defaultEventIndex;
     }
 
+    @Override
     public java.awt.Image getIcon(int iconKind) {
         if (iconKind == ICON_COLOR_16x16 || iconKind == ICON_MONO_16x16) {
-            return Utilities.loadImage(ICON_DIR_BASE + "graphObject.gif");
+            return ImageUtilities.loadImage(ICON_DIR_BASE + "graphObject.gif");
         } else {
-            return Utilities.loadImage(ICON_DIR_BASE + "graphObject32.gif");
+            return ImageUtilities.loadImage(ICON_DIR_BASE + "graphObject32.gif");
         }
     }
 }
