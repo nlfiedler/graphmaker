@@ -48,30 +48,6 @@ public class FibonacciHeap {
     private int n;
 
     /**
-     * Performs a cascading cut operation. This cuts y from its parent
-     * and then does the same for its parent, and so on up the tree.
-     *
-     * <p><em>Running time: O(log n)</em></p>
-     *
-     * @param  y  node to perform cascading cut on
-     */
-    private void cascadingCut(Node y) {
-        Node z = y.parent;
-        // if there's a parent...
-        if (z != null) {
-            if (y.mark) {
-                // it's marked, cut it from parent
-                cut(y, z);
-                // cut its parent as well
-                cascadingCut(z);
-            } else {
-                // if y is unmarked, set it marked
-                y.mark = true;
-            }
-        }
-    }
-
-    /**
      * Removes all elements from this heap.
      *
      * <p><em>Running time: O(1)</em></p>
@@ -121,7 +97,7 @@ public class FibonacciHeap {
                     nextW = nextW.right;
                 }
                 // Node y disappears from root list.
-                link(y, x);
+                y.link(x);
                 // We've handled this degree, go to next one.
                 A[d] = null;
                 d++;
@@ -141,37 +117,6 @@ public class FibonacciHeap {
                 min = a;
             }
         }
-    }
-
-    /**
-     * The reverse of the link operation: removes x from the child
-     * list of y. This method assumes that min is non-null.
-     *
-     * <p><em>Running time: O(1)</em></p>
-     *
-     * @param  x  child of y to be removed from y's child list
-     * @param  y  parent of x about to lose a child
-     */
-    private void cut(Node x, Node y) {
-        // remove x from childlist of y and decrement degree[y]
-        x.left.right = x.right;
-        x.right.left = x.left;
-        y.degree--;
-        // reset y.child if necessary
-        if (y.degree == 0) {
-            y.child = null;
-        } else if (y.child == x) {
-            y.child = x.right;
-        }
-        // add x to root list of heap
-        x.right = min;
-        x.left = min.left;
-        min.left = x;
-        x.left.right = x;
-        // set parent[x] to nil
-        x.parent = null;
-        // set mark[x] to false
-        x.mark = false;
     }
 
     /**
@@ -205,8 +150,8 @@ public class FibonacciHeap {
         x.key = k;
         Node y = x.parent;
         if (y != null && (delete || k < y.key)) {
-            cut(x, y);
-            cascadingCut(y);
+            y.cut(x, min);
+            y.cascadingCut(min);
         }
         if (delete || k < min.key) {
             min = x;
@@ -267,36 +212,6 @@ public class FibonacciHeap {
         }
         n++;
         return node;
-    }
-
-    /**
-     * Make node y a child of node x.
-     *
-     * <p><em>Running time: O(1)</em></p>
-     *
-     * @param  y  node to become child
-     * @param  x  node to become parent
-     */
-    private void link(Node y, Node x) {
-        // remove y from its circular list
-        y.left.right = y.right;
-        y.right.left = y.left;
-        // make y a child of x
-        y.parent = x;
-        if (x.child == null) {
-            x.child = y;
-            y.right = y;
-            y.left = y;
-        } else {
-            y.left = x.child;
-            y.right = x.child.right;
-            x.child.right = y;
-            y.right.left = y;
-        }
-        // increase degree[x]
-        x.degree++;
-        // set mark[y] false
-        y.mark = false;
     }
 
     /**
@@ -437,6 +352,93 @@ public class FibonacciHeap {
             this.key = key;
             right = this;
             left = this;
+        }
+
+        /**
+         * Performs a cascading cut operation. Cuts this from its parent
+         * and then does the same for its parent, and so on up the tree.
+         *
+         * <p><em>Running time: O(log n)</em></p>
+         *
+         * @param  min  the minimum heap node, to which nodes will be added.
+         */
+        public void cascadingCut(Node min) {
+            Node z = parent;
+            // if there's a parent...
+            if (z != null) {
+                if (mark) {
+                    // it's marked, cut it from parent
+                    z.cut(this, min);
+                    // cut its parent as well
+                    z.cascadingCut(min);
+                } else {
+                    // if y is unmarked, set it marked
+                    mark = true;
+                }
+            }
+        }
+
+        /**
+         * The reverse of the link operation: removes x from the child
+         * list of this node.
+         *
+         * <p><em>Running time: O(1)</em></p>
+         *
+         * @param  x    child to be removed from this node's child list
+         * @param  min  the minimum heap node, to which x is added.
+         */
+        public void cut(Node x, Node min) {
+            // remove x from childlist and decrement degree
+            x.left.right = x.right;
+            x.right.left = x.left;
+            degree--;
+            // reset child if necessary
+            if (degree == 0) {
+                child = null;
+            } else if (child == x) {
+                child = x.right;
+            }
+            // add x to root list of heap
+            x.right = min;
+            x.left = min.left;
+            min.left = x;
+            x.left.right = x;
+            // set parent[x] to nil
+            x.parent = null;
+            // set mark[x] to false
+            x.mark = false;
+        }
+
+        /**
+         * Make this node a child of the given parent node. All linkages
+         * are updated, the degree of the parent is incremented, and
+         * mark is set to false.
+         *
+         * @param  parent  the new parent node.
+         */
+        public void link(Node parent) {
+            // Note: putting this code here in Node makes it 7x faster
+            // because it doesn't have to use generated accessor methods,
+            // which add a lot of time when called millions of times.
+            // remove this from its circular list
+            left.right = right;
+            right.left = left;
+            // make this a child of x
+            this.parent = parent;
+            if (parent.child == null) {
+                parent.child = this;
+                right = this;
+                left = this;
+            } else {
+                left = parent.child;
+                right = parent.child.right;
+                parent.child.right = this;
+                right.left = this;
+            }
+            // increase degree[x]
+            parent.degree++;
+            // set mark false
+            mark = false;
         }
     }
 }
