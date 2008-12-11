@@ -35,13 +35,13 @@
         <fattr name="known-graphmaker-file" text="true"/>
         <resolver mime="text/x-graphmaker+xml"/>
     </file>
-    <!-- For other XML, look for <object class="..."/> -->
+    <!-- For other XML, look for <java version="..."/> -->
     <file>
         <ext name="gmx"/>
         <resolver mime="text/x-graphmaker+xml">
             <xml-rule>
-                <element name="object">
-                    <attr name="class"/>
+                <element name="java">
+                    <attr name="version"/>
                 </element>
             </xml-rule>
         </resolver>
