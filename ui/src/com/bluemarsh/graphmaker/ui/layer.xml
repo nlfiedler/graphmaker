@@ -82,4 +82,17 @@
             </file>
         </folder>
     </folder>
+
+    <folder name="Services">
+        <folder name="MIMEResolver">
+            <file name="com-bluemarsh-graphmaker-ui-mime-resolver.xml"
+                  url="mime-resolver.xml">
+                <attr name="SystemFileSystem.localizingBundle"
+                      stringvalue="com.bluemarsh.graphmaker.ui.Bundle"/>
+                <attr name="SystemFileSystem.icon"
+                      urlvalue="nbresloc:/com/bluemarsh/graphmaker/ui/resources/graphObject.gif"/>
+                <attr name="position" intvalue="10"/>
+            </file>
+        </folder>
+    </folder>
 </filesystem>

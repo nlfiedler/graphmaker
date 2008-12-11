@@ -26,7 +26,6 @@ package com.bluemarsh.graphmaker.ui;
 import java.io.IOException;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObjectExistsException;
-import org.openide.loaders.ExtensionList;
 import org.openide.loaders.MultiDataObject;
 import org.openide.loaders.UniFileLoader;
 import org.openide.util.NbBundle;
@@ -39,8 +38,6 @@ import org.openide.util.NbBundle;
 public class GraphDataLoader extends UniFileLoader {
     /** silence compiler warnings */
     private static final long serialVersionUID = 1L;
-    /** File extension recognized as a GraphMaker data file. */
-    public static final String FILE_EXTENSION = "gmx";
 
     /**
      * Creates a new instance of GraphDataLoader.
@@ -69,8 +66,7 @@ public class GraphDataLoader extends UniFileLoader {
     @Override
     protected void initialize() {
         super.initialize();
-        ExtensionList ext = getExtensions();
-        ext.addExtension(FILE_EXTENSION);
-        setExtensions(ext);
+        // MIME type is defined in mime-resolver.xml, listed in layer file.
+        getExtensions().addMimeType("text/x-graphmaker+xml");
     }
 }
