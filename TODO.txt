@@ -5,12 +5,10 @@ $Id$
 
 NetBeans transformation
 ----------------------------------------------------------------------
-- Implement an Open File action for File menu (show only our files).
 - Implement the graphical editor
   - Look at Shapes Integration Sample in graph/integration
   - Set the TopComponent toolbar via the graph panel
   - Look for XXX to fix uses of Scene, and in widget factory
-- Create appropriate icons for the data loader, data node, wizard
 - How to represent the tools, and connect them to the view?
   - NB graph library has something for this.
   - Tools should appear in the editor toolbar
@@ -20,17 +18,11 @@ NetBeans transformation
   - Define a ToolManager service
     - manages the tools (set current, attach, detach)
     - does not persist anything
-- Should the model component properties be persisted?
+- Should the model component client properties be persisted?
   - If so, done in DefaultModelBeanInfo.Persistent class.
 - Implement undo/redo support (hook in through top component)
-- Define an update center
+- Create appropriate icons for the data loader, data node, wizard
 - Recompile Windows launcher to take new icon.
-
-
-Web site update
-----------------------------------------------------------------------
-- Update the license information (now CDDL)
-- Move the documentation into the built-in help
 
 
 Popup menu and selecting objects
