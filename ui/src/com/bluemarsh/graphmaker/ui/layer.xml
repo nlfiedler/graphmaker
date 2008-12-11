@@ -15,13 +15,15 @@
 
   The Original Software is GraphMaker. The Initial Developer of the Original
   Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
-  are Copyright (C) 2006-2007. All Rights Reserved.
+  are Copyright (C) 2006-2008. All Rights Reserved.
 
   Contributor(s): Nathan L. Fiedler.
 
   $Id$
 -->
-<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<!DOCTYPE filesystem PUBLIC
+  "-//NetBeans//DTD Filesystem 1.1//EN"
+  "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
     <folder name="Loaders">
         <folder name="text">
@@ -67,8 +69,6 @@
 
     <folder name="Menu">
         <file name="GoTo_hidden"/>
-        <!-- After hiding GoTo menu, order of View and Tools is backward... -->
-        <attr name="View/Tools" boolvalue="true"/>
     </folder>
 
     <folder name="Templates">
