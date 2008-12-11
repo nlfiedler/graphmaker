@@ -15,7 +15,7 @@
 
   The Original Software is GraphMaker. The Initial Developer of the Original
   Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
-  are Copyright (C) 2007. All Rights Reserved.
+  are Copyright (C) 2007-2008. All Rights Reserved.
 
   Contributor(s): Nathan L. Fiedler.
 
@@ -35,16 +35,17 @@
         <folder name="Help">
             <file name="master-help.xml_hidden"/>
             <file name="com-bluemarsh-graphmaker-help-master.xml" url="master.xml">
+                <attr name="position" intvalue="1"/>
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="com.bluemarsh.graphmaker.help.Bundle"/>
             </file>
             <file name="com-bluemarsh-graphmaker-help-help.xml" url="getting-help.xml">
+                <attr name="position" intvalue="2"/>
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="com.bluemarsh.graphmaker.help.Bundle"/>
             </file>
             <file name="com-bluemarsh-graphmaker-help-bugs.xml" url="reporting-bugs.xml">
+                <attr name="position" intvalue="3"/>
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="com.bluemarsh.graphmaker.help.Bundle"/>
             </file>
-            <attr name="master.xml/com-bluemarsh-graphmaker-help-help.xml" boolvalue="true"/>
-            <attr name="com-bluemarsh-graphmaker-help-help.xml/com-bluemarsh-graphmaker-help-bugs.xml" boolvalue="true"/>
         </folder>
     </folder>
 </filesystem>
