@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -46,7 +46,7 @@ public class GraphDataLoader extends UniFileLoader {
      * Creates a new instance of GraphDataLoader.
      */
     public GraphDataLoader() {
-        super(GraphDataLoader.class.getName());
+        super(GraphDataObject.class.getName());
     }
 
     @Override
@@ -54,6 +54,7 @@ public class GraphDataLoader extends UniFileLoader {
 	return "Loaders/text/x-graphmaker/Actions/";
     }
 
+    @Override
     protected MultiDataObject createMultiObject(FileObject fobj) throws
             DataObjectExistsException, IOException {
         return new GraphDataObject(fobj, this);

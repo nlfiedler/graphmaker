@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -59,6 +59,7 @@ public class GraphOpenSupport extends OpenSupport implements
         dataObject = dobj;
     }
 
+    @Override
     protected CloneableTopComponent createCloneableTopComponent() {
         return new GraphTopComponent(dataObject);
     }
@@ -69,7 +70,7 @@ public class GraphOpenSupport extends OpenSupport implements
      * @return  open support environment.
      */
     public Env getEnv() {
-	return (OpenSupport.Env) env;
+        return (OpenSupport.Env) env;
     }
 
     /**
@@ -116,11 +117,13 @@ public class GraphOpenSupport extends OpenSupport implements
         }
     }
 
+    @Override
     public void open() {
         loadModel();
         super.open();
     }
 
+    @Override
     public void print() {
         loadModel();
     }

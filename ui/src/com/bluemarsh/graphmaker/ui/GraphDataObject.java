@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -60,7 +60,6 @@ public class GraphDataObject extends MultiDataObject {
     public GraphDataObject(FileObject fobj, UniFileLoader loader) throws
             DataObjectExistsException {
         super(fobj, loader);
-
         CookieSet set = getCookieSet();
         graphOpenSupport = new GraphOpenSupport(this);
         set.add(graphOpenSupport);
@@ -150,6 +149,7 @@ public class GraphDataObject extends MultiDataObject {
             return getClass().hashCode();
         }
 
+        @Override
         public void save() throws IOException {
             dataObject.getOpenSupport().saveModel();
             dataObject.setModified(false);

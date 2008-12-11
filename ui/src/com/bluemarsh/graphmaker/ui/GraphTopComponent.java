@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2008. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -56,35 +56,42 @@ public class GraphTopComponent extends CloneableTopComponent {
         setLayout(new BorderLayout());
     }
 
+    @Override
     protected void componentClosed() {
         super.componentClosed();
         removeAll();
         graphPanel = null;
     }
 
+    @Override
     protected void componentOpened() {
         super.componentOpened();
         graphPanel = new GraphPanel();
         add(graphPanel, BorderLayout.CENTER);
     }
 
+    @Override
     public String getDisplayName() {
         return dataObject.getName();
     }
 
+    @Override
     public int getPersistenceType() {
         return PERSISTENCE_ONLY_OPENED;
     }
 
+    @Override
     public String getToolTipText() {
         return NbBundle.getMessage(GraphTopComponent.class,
                 "HINT_GraphTopComponent");
     }
 
+    @Override
     public UndoRedo getUndoRedo() {
         return super.getUndoRedo();
     }
 
+    @Override
     protected String preferredID() {
         return dataObject.getName();
     }
