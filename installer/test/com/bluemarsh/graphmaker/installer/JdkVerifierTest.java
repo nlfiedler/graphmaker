@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2005-2007. All Rights Reserved.
+ * are Copyright (C) 2005-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -56,11 +56,11 @@ public class JdkVerifierTest extends TestCase {
         File dir = new File(home);
         JdkVerifier jv = new JdkVerifier();
         jv.scanPath(dir);
-        assertTrue("java.home has no JDK?", jv.sufficientVersion());
-        home = System.getProperty("user.home");
+        assertTrue(jv.sufficientVersion());
+        home = System.getProperty("user.dir");
         dir = new File(home);
         jv = new JdkVerifier();
         jv.scanPath(dir);
-        assertFalse("user.home has JDK?", jv.sufficientVersion());
+        assertFalse(jv.sufficientVersion());
     }
 }

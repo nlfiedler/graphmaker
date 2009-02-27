@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2005-2007. All Rights Reserved.
+ * are Copyright (C) 2005-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -66,14 +66,17 @@ public class SummaryPanel extends InstallerPanel {
         StyleConstants.setBold(s, true);
     }
 
+    @Override
     public String getNext() {
         return null;
     }
 
+    @Override
     public String getPrevious() {
         return null;
     }
 
+    @Override
     public void hidePanel() {
     }
 
@@ -101,6 +104,7 @@ public class SummaryPanel extends InstallerPanel {
         }
     }
 
+    @Override
     public void showPanel() {
         Controller.getDefault().markCompleted();
         populateText();

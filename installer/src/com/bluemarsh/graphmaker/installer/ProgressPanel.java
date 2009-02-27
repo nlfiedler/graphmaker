@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2005-2007. All Rights Reserved.
+ * are Copyright (C) 2005-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -62,6 +62,7 @@ public class ProgressPanel extends InstallerPanel implements Runnable {
         initComponents();
     }
 
+    @Override
     public void cancelInstall() {
         waitLabel.setText(Bundle.getString("MSG_Progress_CleanWait"));
         if (workerThread != null) {
@@ -104,6 +105,7 @@ public class ProgressPanel extends InstallerPanel implements Runnable {
         dir.delete();
     }
 
+    @Override
     public String getNext() {
         if (installSuccessful) {
             return "summary";
@@ -112,24 +114,26 @@ public class ProgressPanel extends InstallerPanel implements Runnable {
         }
     }
 
+    @Override
     public String getPrevious() {
         // This is the point of no return, user cannot go back.
         return null;
     }
 
+    @Override
     public void hidePanel() {
     }
 
-    /**
-     * Perform the actual installation.
-     */
+    @Override
     public void run() {
         Runnable labelSetter = new Runnable() {
+            @Override
             public void run() {
                 fileLabel.setText(currentEntryName);
             }
         };
         Runnable progressor = new Runnable() {
+            @Override
             public void run() {
                 int value = (int) percentComplete;
                 progressBar.setValue(value);
@@ -255,12 +259,14 @@ public class ProgressPanel extends InstallerPanel implements Runnable {
         // Indicate completeness.
         installSuccessful = true;
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Controller.getDefault().next();
             }
         });
     }
 
+    @Override
     public void showPanel() {
         // Spawn a new thread and perform the work there.
         workerThread = new Thread(this, "installer");

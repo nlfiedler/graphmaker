@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2005-2007. All Rights Reserved.
+ * are Copyright (C) 2005-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -85,6 +85,7 @@ public class HomePanel extends InstallerPanel implements
         browseButton.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         Object src = event.getSource();
         if (src == browseButton) {
@@ -106,9 +107,11 @@ public class HomePanel extends InstallerPanel implements
         }
     }
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
     }
 
+    @Override
     public String getNext() {
         if (homeOkay) {
             return "review";
@@ -118,6 +121,7 @@ public class HomePanel extends InstallerPanel implements
         }
     }
 
+    @Override
     public String getPrevious() {
         return "jdk";
     }
@@ -140,20 +144,24 @@ public class HomePanel extends InstallerPanel implements
         return version;
     }
 
+    @Override
     public void hidePanel() {
         Controller.getDefault().setProperty("home",  homeTextField.getText());
     }
 
+    @Override
     public void insertUpdate(DocumentEvent e) {
         String path = homeTextField.getText();
         validateDirectory(path);
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         String path = homeTextField.getText();
         validateDirectory(path);
     }
 
+    @Override
     public void showPanel() {
         String path = homeTextField.getText();
         validateDirectory(path);
