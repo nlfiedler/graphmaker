@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2008. All Rights Reserved.
+ * are Copyright (C) 1999-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -82,8 +82,9 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      *
-     * @param  o  object to be added.
+     * @param o
      */
+    @Override
     public boolean add(Object o) {
         throw new UnsupportedOperationException();
     }
@@ -91,6 +92,7 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public void add(int index, Object element) {
         throw new UnsupportedOperationException();
     }
@@ -98,6 +100,7 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public boolean addAll(Collection c) {
         throw new UnsupportedOperationException();
     }
@@ -105,10 +108,12 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public boolean addAll(int index, Collection c) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void clear() {
         init(objectSet.length);
     }
@@ -124,6 +129,7 @@ public class DisjointSet implements Cloneable, List {
         }
     }
 
+    @Override
     public boolean contains(Object o) {
         for (int ii = 0; ii < objectSet.length; ii++) {
             if (objectSet[ii] != null && o.equals(objectSet[ii])) {
@@ -133,6 +139,7 @@ public class DisjointSet implements Cloneable, List {
         return false;
     }
 
+    @Override
     public boolean containsAll(Collection c) {
         Iterator iter = c.iterator();
         while (iter.hasNext()) {
@@ -145,7 +152,10 @@ public class DisjointSet implements Cloneable, List {
 
     @Override
     public boolean equals(Object o) {
-        return o == this;
+        if (o instanceof DisjointSet) {
+            return o == this;
+        }
+        return false;
     }
 
     /**
@@ -174,6 +184,7 @@ public class DisjointSet implements Cloneable, List {
         }
     }
 
+    @Override
     public Object get(int index) {
         if (index < 0 || index >= objectSet.length) {
             throw new IndexOutOfBoundsException();
@@ -186,6 +197,7 @@ public class DisjointSet implements Cloneable, List {
         return System.identityHashCode(this);
     }
 
+    @Override
     public int indexOf(Object o) {
         return indexOf(o, 0);
     }
@@ -226,14 +238,17 @@ public class DisjointSet implements Cloneable, List {
         elementCount = 0;
     }
 
+    @Override
     public boolean isEmpty() {
         return elementCount == 0;
     }
 
+    @Override
     public Iterator iterator() {
         return new Iter(objectSet);
     }
 
+    @Override
     public int lastIndexOf(Object o) {
         for (int ii = objectSet.length - 1; ii > -1; ii--) {
             if (objectSet[ii].equals(o)) {
@@ -243,10 +258,12 @@ public class DisjointSet implements Cloneable, List {
         return -1;
     }
 
+    @Override
     public ListIterator listIterator() {
         return new ListIter(objectSet);
     }
 
+    @Override
     public ListIterator listIterator(int index) {
         if (index < 0 || index >= objectSet.length) {
             throw new IndexOutOfBoundsException();
@@ -280,6 +297,7 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public Object remove(int index) {
         throw new UnsupportedOperationException();
     }
@@ -287,6 +305,7 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public boolean remove(Object o) {
         throw new UnsupportedOperationException();
     }
@@ -294,6 +313,7 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public boolean removeAll(Collection c) {
         throw new UnsupportedOperationException();
     }
@@ -301,10 +321,12 @@ public class DisjointSet implements Cloneable, List {
     /**
      * This method is not supported.
      */
+    @Override
     public boolean retainAll(Collection c) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object set(int index, Object element) {
         if (index < 0 || index >= objectSet.length) {
             throw new IndexOutOfBoundsException();
@@ -321,10 +343,12 @@ public class DisjointSet implements Cloneable, List {
         return old;
     }
 
+    @Override
     public int size() {
         return numberOfElements();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List subList(int fromIndex, int toIndex) {
         ArrayList list = new ArrayList(toIndex - fromIndex);
@@ -334,12 +358,14 @@ public class DisjointSet implements Cloneable, List {
         return list;
     }
 
+    @Override
     public Object[] toArray() {
         Object[] copy = new Object[objectSet.length];
         System.arraycopy(objectSet, 0, copy, 0, objectSet.length);
         return copy;
     }
 
+    @Override
     public Object[] toArray(Object a[]) {
         // Get the elements into an array.
         Object[] result = toArray();
@@ -438,10 +464,12 @@ public class DisjointSet implements Cloneable, List {
             this.set = set;
         }
 
+        @Override
         public boolean hasNext() {
             return index < set.length;
         }
 
+        @Override
         public Object next() {
             if (hasNext()) {
                 return set[index++];
@@ -450,6 +478,7 @@ public class DisjointSet implements Cloneable, List {
             }
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -485,20 +514,24 @@ public class DisjointSet implements Cloneable, List {
         /**
          * This method is not supported.
          *
-         * @param  o  object to be added.
+         * @param o
          */
+        @Override
         public void add(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean hasPrevious() {
             return index > 0;
         }
 
+        @Override
         public int nextIndex() {
             return index;
         }
 
+        @Override
         public Object previous() {
             if (hasPrevious()) {
                 return set[--index];
@@ -507,6 +540,7 @@ public class DisjointSet implements Cloneable, List {
             }
         }
 
+        @Override
         public int previousIndex() {
             return index - 1;
         }
@@ -519,6 +553,7 @@ public class DisjointSet implements Cloneable, List {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void set(Object o) {
             set[index] = o;
         }

@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -32,12 +32,14 @@ package com.bluemarsh.graphmaker.core.model;
  */
 public class DefaultModelFactory implements ModelFactory {
 
+    @Override
     public ModelAccess createAccess(ModelSource source) {
         ModelAccess ma = new DefaultModelAccess();
         ma.setSource(source);
         return ma;
     }
 
+    @Override
     public Edge createEdge(Vertex source, Vertex target, boolean directed) {
         Edge e = new DefaultEdge();
         e.setSource(source);
@@ -46,10 +48,12 @@ public class DefaultModelFactory implements ModelFactory {
         return e;
     }
 
+    @Override
     public Model createModel() {
         return new DefaultModel();
     }
 
+    @Override
     public Vertex createVertex(int x, int y, int z, double cost) {
         Vertex v = new DefaultVertex();
         v.setX(x);

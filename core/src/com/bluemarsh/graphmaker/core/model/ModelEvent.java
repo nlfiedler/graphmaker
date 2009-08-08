@@ -44,24 +44,28 @@ public class ModelEvent extends EventObject {
     public static enum Type {
         /** Edge was added to the model. */
         EDGE_ADDED {
+            @Override
             public void fireEvent(ModelEvent e, ModelListener l) {
                 l.edgeAdded(e);
             }
         },
         /** Edge was removed from the model. */
         EDGE_REMOVED {
+            @Override
             public void fireEvent(ModelEvent e, ModelListener l) {
                 l.edgeRemoved(e);
             }
         },
         /** Vertex was added to the model. */
         VERTEX_ADDED {
+            @Override
             public void fireEvent(ModelEvent e, ModelListener l) {
                 l.vertexAdded(e);
             }
         },
         /** Vertex was removed from the model. */
         VERTEX_REMOVED {
+            @Override
             public void fireEvent(ModelEvent e, ModelListener l) {
                 l.vertexRemoved(e);
             }

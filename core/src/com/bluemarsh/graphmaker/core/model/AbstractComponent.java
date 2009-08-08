@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -38,7 +38,7 @@ public abstract class AbstractComponent implements Component {
     /** Handles property change listeners and sending events. */
     protected PropertyChangeSupport propSupport;
     /** Map of the client properties set in this instance. */
-    private Map<Object, Object> propertiesMap;
+    private final Map<Object, Object> propertiesMap;
     /** User-defined cost of this component. */
     private double cost;
     /** User-defined label for this component. This can be shown in the
@@ -55,20 +55,24 @@ public abstract class AbstractComponent implements Component {
         propertiesMap = new HashMap<Object, Object>();
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propSupport.addPropertyChangeListener(listener);
     }
 
+    @Override
     public Object getClientProperty(Object key) {
         synchronized (propertiesMap) {
             return propertiesMap.get(key);
         }
     }
 
+    @Override
     public double getCost() {
         return cost;
     }
 
+    @Override
     public String getLabel() {
         if (label == null) {
             label = "";
@@ -76,10 +80,12 @@ public abstract class AbstractComponent implements Component {
         return label;
     }
 
+    @Override
     public Model getModel() {
         return model;
     }
 
+    @Override
     public void putClientProperty(Object key, Object value) {
         Object oldValue;
         synchronized (propertiesMap) {
@@ -96,16 +102,19 @@ public abstract class AbstractComponent implements Component {
         propSupport.firePropertyChange(key.toString(), oldValue, value);
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propSupport.removePropertyChangeListener(listener);
     }
 
+    @Override
     public void setCost(double cost) {
         double old = this.cost;
         this.cost = cost;
         propSupport.firePropertyChange(PROP_COST, old, cost);
     }
 
+    @Override
     public void setLabel(String label) {
         String old = this.label;
         this.label = label;

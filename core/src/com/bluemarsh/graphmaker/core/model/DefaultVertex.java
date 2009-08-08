@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2007. All Rights Reserved.
+ * are Copyright (C) 1999-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -48,12 +48,14 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
     public DefaultVertex() {
     }
 
+    @Override
     public double computeDistance(Vertex v) {
 	return Math.sqrt(Math.pow(x - v.getX(), 2) +
                          Math.pow(y - v.getY(), 2) +
                          Math.pow(z - v.getZ(), 2));
     }
 
+    @Override
     public boolean contains(int x, int y, int z) {
         int nx = x - this.x;
         int ny = y - this.y;
@@ -73,34 +75,42 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
         return false;
     }
 
+    @Override
     public int getDepth() {
 	return depth;
     }
 
+    @Override
     public int getHeight() {
 	return height;
     }
 
+    @Override
     public int getWidth() {
 	return width;
     }
 
+    @Override
     public int getX() {
         return x;
     }
 
+    @Override
     public int getY() {
         return y;
     }
 
+    @Override
     public int getZ() {
         return z;
     }
 
+    @Override
     public int hashCode() {
         return (x << 24) + (y << 12) + z;
     }
 
+    @Override
     public void setDepth(int depth) {
         int old = this.depth;
         if (depth > 0) {
@@ -109,6 +119,7 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
         propSupport.firePropertyChange(PROP_DEPTH, old, depth);
     }
 
+    @Override
     public void setHeight(int height) {
         int old = this.height;
         if (height > 0) {
@@ -117,6 +128,7 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
         propSupport.firePropertyChange(PROP_HEIGHT, old, height);
     }
 
+    @Override
     public void setWidth(int width) {
         int old = this.width;
         if (width > 0) {
@@ -125,18 +137,21 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
         propSupport.firePropertyChange(PROP_WIDTH, old, width);
     }
 
+    @Override
     public void setX(int x) {
         int old = this.x;
         this.x = x;
         propSupport.firePropertyChange(PROP_X, old, x);
     }
 
+    @Override
     public void setY(int y) {
         int old = this.y;
         this.y = y;
         propSupport.firePropertyChange(PROP_Y, old, y);
     }
 
+    @Override
     public void setZ(int z) {
         int old = this.z;
         this.z = z;

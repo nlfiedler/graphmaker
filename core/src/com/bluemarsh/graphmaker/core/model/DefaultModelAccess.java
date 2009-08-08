@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2008. All Rights Reserved.
+ * are Copyright (C) 2006-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -104,10 +104,12 @@ public class DefaultModelAccess implements ModelAccess {
         return fobj.getOutputStream(fileLock);
     }
 
+    @Override
     public ModelSource getSource() {
         return modelSource;
     }
 
+    @Override
     public synchronized Model read() throws IOException {
         XMLDecoder decoder = null;
         Model model = null;
@@ -115,6 +117,7 @@ public class DefaultModelAccess implements ModelAccess {
             InputStream is = getInputStream();
             decoder = new XMLDecoder(is);
             decoder.setExceptionListener(new ExceptionListener() {
+                @Override
                 public void exceptionThrown(Exception e) {
                     ErrorManager.getDefault().notify(e);
                 }
@@ -140,10 +143,12 @@ public class DefaultModelAccess implements ModelAccess {
         return model;
     }
 
+    @Override
     public void setSource(ModelSource source) {
         modelSource = source;
     }
 
+    @Override
     public synchronized void write(Model model) throws IOException {
         if (modelSource.isWritable()) {
             try {

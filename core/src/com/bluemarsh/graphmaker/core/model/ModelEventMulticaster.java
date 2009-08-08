@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -106,21 +106,25 @@ public class ModelEventMulticaster implements ModelListener {
         return (l1 == listener1 && l2 == listener2) ? this : add(l1, l2);
     }
 
+    @Override
     public void edgeAdded(ModelEvent event) {
         listener1.edgeAdded(event);
         listener2.edgeAdded(event);
     }
 
+    @Override
     public void edgeRemoved(ModelEvent event) {
         listener1.edgeRemoved(event);
         listener2.edgeRemoved(event);
     }
 
+    @Override
     public void vertexAdded(ModelEvent event) {
         listener1.vertexAdded(event);
         listener2.vertexAdded(event);
     }
 
+    @Override
     public void vertexRemoved(ModelEvent event) {
         listener1.vertexRemoved(event);
         listener2.vertexRemoved(event);

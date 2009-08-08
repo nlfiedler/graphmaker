@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2007. All Rights Reserved.
+ * are Copyright (C) 1999-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -90,6 +90,7 @@ public class DefaultModel extends AbstractModel {
         adjacencies.setElementAt(newList, fromIdx);
     }
 
+    @Override
     public void addEdge(Edge edge) {
         checkInTransaction();
         if (edge == null) {
@@ -124,6 +125,7 @@ public class DefaultModel extends AbstractModel {
         fireUndoableEdit(new EdgeAddUndoableEdit(this, edge));
     }
 
+    @Override
     public void addVertex(Vertex vertex) {
         checkInTransaction();
         if (vertex == null) {
@@ -136,6 +138,7 @@ public class DefaultModel extends AbstractModel {
         fireUndoableEdit(new VertexAddUndoableEdit(this, vertex));
     }
 
+    @Override
     public Edge findEdge(Vertex source, Vertex target) {
         if (source == null || target == null || source == target) {
             return null;
@@ -181,6 +184,7 @@ public class DefaultModel extends AbstractModel {
         return null;
     }
 
+    @Override
     public Vertex findVertex(int x, int y, int z) {
         for (Vertex vertex : vertexList) {
             if (vertex.contains(x, y, z)) {
@@ -190,6 +194,7 @@ public class DefaultModel extends AbstractModel {
         return null;
     }
 
+    @Override
     public List<Edge> findAdjacentEdges(Vertex vertex, boolean directedOnly) {
         List<Edge> result = new LinkedList<Edge>();
         if (directedOnly) {
@@ -212,6 +217,7 @@ public class DefaultModel extends AbstractModel {
         return result;
     }
 
+    @Override
     public List<Vertex> findAdjacentVertices(Vertex vertex) {
         List<Vertex> result = new LinkedList<Vertex>();
         int index = vertexList.indexOf(vertex);
@@ -226,14 +232,17 @@ public class DefaultModel extends AbstractModel {
         return result;
     }
 
+    @Override
     public List<Edge> getEdges() {
         return Collections.unmodifiableList(edgeList);
     }
 
+    @Override
     public List<Vertex> getVertices() {
         return Collections.unmodifiableList(vertexList);
     }
 
+    @Override
     public void remove(Component component) {
         if (component instanceof Edge) {
             removeEdge((Edge) component);
@@ -291,6 +300,7 @@ public class DefaultModel extends AbstractModel {
         }
     }
 
+    @Override
     public void removeEdge(Edge edge) {
         checkInTransaction();
         if (edge == null) {
@@ -310,6 +320,7 @@ public class DefaultModel extends AbstractModel {
         fireUndoableEdit(new EdgeRemoveUndoableEdit(this, edge));
     }
 
+    @Override
     public void removeVertex(Vertex vertex) {
         checkInTransaction();
         if (vertex == null) {

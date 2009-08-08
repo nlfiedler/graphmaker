@@ -23,6 +23,8 @@ NetBeans transformation
 - Implement undo/redo support (hook in through top component)
 - Create appropriate icons for the data loader, data node, wizard
 - Recompile Windows launcher to take new icon.
+- Update to latest NetBeans conventions
+  - ErrorManager no longer used
 
 
 Popup menu and selecting objects

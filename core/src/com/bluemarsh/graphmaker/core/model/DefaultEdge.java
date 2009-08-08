@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1997-2007. All Rights Reserved.
+ * are Copyright (C) 1997-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -53,6 +53,7 @@ public class DefaultEdge extends AbstractComponent implements Edge {
         return false;
     }
 
+    @Override
     public double computeAngle() {
         // Subtract y coordinates in reverse order from normal
         // as the screen coordinate system is flipped along the
@@ -67,38 +68,46 @@ public class DefaultEdge extends AbstractComponent implements Edge {
         return angle;
     }
 
+    @Override
     public double computeLength() {
         return source.computeDistance(target);
     }
 
+    @Override
     public Vertex getSource() {
         return source;
     }
 
+    @Override
     public Vertex getTarget() {
         return target;
     }
 
+    @Override
     public int hashCode() {
         return (source.hashCode() << 8) + target.hashCode() + (directed ? 0 : 1);
     }
 
+    @Override
     public boolean isDirected() {
         return directed;
     }
 
+    @Override
     public void setDirected(boolean directed) {
         boolean old = this.directed;
         this.directed = directed;
         propSupport.firePropertyChange(PROP_DIRECTED, old, directed);
     }
 
+    @Override
     public void setSource(Vertex source) {
         Vertex old = this.source;
         this.source = source;
         propSupport.firePropertyChange(PROP_SOURCE, old, source);
     }
 
+    @Override
     public void setTarget(Vertex target) {
         Vertex old = this.target;
         this.target = target;

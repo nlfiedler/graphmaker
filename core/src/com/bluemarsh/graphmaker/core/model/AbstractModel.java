@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2009. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -52,7 +52,7 @@ public abstract class AbstractModel implements Model {
     /** Handles undoable edit listeners and sending events. */
     private ModelUndoableEditSupport editSupport;
     /** Map of the client properties set in this instance. */
-    private Map<Object, Object> propertiesMap;
+    private final Map<Object, Object> propertiesMap;
     /** List of model listeners. */
     private ModelListener modelListeners;
     /** The current open transaction; otherwise null. */
@@ -70,6 +70,7 @@ public abstract class AbstractModel implements Model {
         transactionSemaphore = new Semaphore(1, true);
     }
 
+    @Override
     public void addModelListener(ModelListener listener) {
         if (listener != null) {
             synchronized (this) {
@@ -79,14 +80,17 @@ public abstract class AbstractModel implements Model {
         }
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propSupport.addPropertyChangeListener(listener);
     }
 
+    @Override
     public void addUndoableEditListener(UndoableEditListener listener) {
         editSupport.addUndoableEditListener(listener);
     }
 
+    @Override
     public synchronized void cancelTransaction() {
         if (isInTransaction()) {
             if (!transaction.currentThreadIsTransactionThread()) {
@@ -115,6 +119,7 @@ public abstract class AbstractModel implements Model {
         }
     }
 
+    @Override
     public synchronized void endTransaction() throws IOException {
         checkInTransaction();
         transaction.fireEvents();
@@ -152,20 +157,24 @@ public abstract class AbstractModel implements Model {
         transaction.addUndoableEdit(edit);
     }
 
+    @Override
     public Object getClientProperty(Object key) {
         synchronized (propertiesMap) {
             return propertiesMap.get(key);
         }
     }
 
+    @Override
     public synchronized boolean isInTransaction() {
         return transaction != null;
     }
 
+    @Override
     public Set<Object> propertyKeys() {
         return propertiesMap.keySet();
     }
 
+    @Override
     public void putClientProperty(Object key, Object value) {
         Object oldValue;
         synchronized (propertiesMap) {
@@ -182,6 +191,7 @@ public abstract class AbstractModel implements Model {
         propSupport.firePropertyChange(key.toString(), oldValue, value);
     }
 
+    @Override
     public void removeModelListener(ModelListener listener) {
         if (listener != null) {
             synchronized (this) {
@@ -191,14 +201,17 @@ public abstract class AbstractModel implements Model {
         }
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propSupport.removePropertyChangeListener(listener);
     }
 
+    @Override
     public void removeUndoableEditListener(UndoableEditListener listener) {
         editSupport.removeUndoableEditListener(listener);
     }
 
+    @Override
     public void startTransaction() {
         startTransaction(false);
     }
@@ -247,7 +260,7 @@ public abstract class AbstractModel implements Model {
         /** Sink for undoable edits, or null to suppress events. */
         private UndoableEditSupport editSupport;
         /** The model that owns this transaction. */
-        private AbstractModel model;
+        private final AbstractModel model;
 
         /**
          * Creates a new instance of Transaction.
