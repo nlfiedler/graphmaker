@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.util.EventObject;
@@ -31,54 +30,13 @@ import java.util.EventObject;
  * @author  Nathan Fiedler
  */
 public class ModelEvent extends EventObject {
+
     /** silence the compiler warnings */
     private static final long serialVersionUID = 1L;
     /** The model that changed. */
     private transient Model model;
     /** The type of model change. */
-    private Type type;
-
-    /**
-     * Type of model event.
-     */
-    public static enum Type {
-        /** Edge was added to the model. */
-        EDGE_ADDED {
-            @Override
-            public void fireEvent(ModelEvent e, ModelListener l) {
-                l.edgeAdded(e);
-            }
-        },
-        /** Edge was removed from the model. */
-        EDGE_REMOVED {
-            @Override
-            public void fireEvent(ModelEvent e, ModelListener l) {
-                l.edgeRemoved(e);
-            }
-        },
-        /** Vertex was added to the model. */
-        VERTEX_ADDED {
-            @Override
-            public void fireEvent(ModelEvent e, ModelListener l) {
-                l.vertexAdded(e);
-            }
-        },
-        /** Vertex was removed from the model. */
-        VERTEX_REMOVED {
-            @Override
-            public void fireEvent(ModelEvent e, ModelListener l) {
-                l.vertexRemoved(e);
-            }
-        };
-
-        /**
-         * Dispatches the event to the listener.
-         *
-         * @param  e  event to dispatch.
-         * @param  l  listener to receive event.
-         */
-        public abstract void fireEvent(ModelEvent e, ModelListener l);
-    }
+    private ModelEventType type;
 
     /**
      * Creates a new instance of ModelEvent.
@@ -86,7 +44,7 @@ public class ModelEvent extends EventObject {
      * @param  model  model that changed (source of event).
      * @param  type   type of model change.
      */
-    public ModelEvent(Model model, Type type) {
+    public ModelEvent(Model model, ModelEventType type) {
         super(model);
         this.model = model;
         this.type = type;
@@ -106,7 +64,7 @@ public class ModelEvent extends EventObject {
      *
      * @return  model event type.
      */
-    public Type getType() {
+    public ModelEventType getType() {
         return type;
     }
 }

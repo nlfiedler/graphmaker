@@ -20,7 +20,6 @@
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.util;
 
 import java.lang.reflect.Array;
@@ -52,16 +51,18 @@ import java.util.NoSuchElementException;
  *     List l = Collections.synchronizedList(new DisjointSet(...));
  *</pre>
  *
+ * @param <T> type of the collection.
  * @author  Nathan Fiedler
  */
-public class DisjointSet implements Cloneable, List {
+public class DisjointSet<T> implements Cloneable, List<T> {
+
     /** The disjoint set of elements. The numbers stored in this array
      * point to the root element of the array element. If the number is
      * less than zero then it is a root and its absolute value is the
      * height of the tree. */
     private int[] disjointSet;
     /** The set of objects represented in the disjoint set. */
-    private Object[] objectSet;
+    private T[] objectSet;
     /** Number of disjoint trees in the set. */
     private int treeCount;
     /** Number of non-null elements stored in the set. */
@@ -89,17 +90,11 @@ public class DisjointSet implements Cloneable, List {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * This method is not supported.
-     */
     @Override
     public void add(int index, Object element) {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * This method is not supported.
-     */
     @Override
     public boolean addAll(Collection c) {
         throw new UnsupportedOperationException();
@@ -177,15 +172,15 @@ public class DisjointSet implements Cloneable, List {
         // root. Otherwise keep looking by calling ourselves recursively.
         // This will automatically shorten the tree.
         if (disjointSet[index] < 0) {
-            return(index);
+            return (index);
         } else {
             disjointSet[index] = find(disjointSet[index]);
-            return(disjointSet[index]);
+            return (disjointSet[index]);
         }
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= objectSet.length) {
             throw new IndexOutOfBoundsException();
         }
@@ -224,13 +219,14 @@ public class DisjointSet implements Cloneable, List {
      *
      * @param  size  number of elements to hold.
      */
-    protected void init(int size) {
+    @SuppressWarnings("unchecked")
+    private void init(int size) {
         // Simply allocate an integer array of the given size.
         // Be sure to clear out the set, making all the elements
         // the roots of their own individual sets (i.e. they are
         // in trees of height one).
         disjointSet = new int[size];
-        objectSet = new Object[size];
+        objectSet = (T[]) new Object[size];
         for (int i = 0; i < size; i++) {
             disjointSet[i] = -1;
         }
@@ -294,27 +290,18 @@ public class DisjointSet implements Cloneable, List {
         return treeCount;
     }
 
-    /**
-     * This method is not supported.
-     */
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * This method is not supported.
-     */
     @Override
     public boolean remove(Object o) {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * This method is not supported.
-     */
     @Override
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
@@ -327,11 +314,11 @@ public class DisjointSet implements Cloneable, List {
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public T set(int index, T element) {
         if (index < 0 || index >= objectSet.length) {
             throw new IndexOutOfBoundsException();
         }
-        Object old = objectSet[index];
+        T old = objectSet[index];
         objectSet[index] = element;
         if (element != null) {
             // Increment the number of non-null elements.
@@ -374,7 +361,7 @@ public class DisjointSet implements Cloneable, List {
         int size = size();
         if (a.length < size) {
             a = (Object[]) Array.newInstance(
-                a.getClass().getComponentType(), size);
+                    a.getClass().getComponentType(), size);
         }
         for (int ii = 0; ii < size; ii++) {
             a[ii] = result[ii];
@@ -450,6 +437,7 @@ public class DisjointSet implements Cloneable, List {
      * matter.
      */
     protected class Iter implements Iterator {
+
         /** Reference to the object set. */
         protected Object[] set;
         /** Index within the set. */

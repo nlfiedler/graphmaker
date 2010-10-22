@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2008. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -60,10 +60,12 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
     /** The wizard panel in which the use selects the new file. */
     private NewFileWizardPanel1 newFilePanel;
 
+    @Override
     public void initialize(TemplateWizard wizard) {
         this.wizard = wizard;
     }
 
+    @Override
     public Set<DataObject> instantiate(TemplateWizard wizard) throws IOException {
         String fname = newFilePanel.getFilename();
         File file = new File(fname);
@@ -78,6 +80,7 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
             Collections.singleton(dobj);
     }
 
+    @Override
     public void uninitialize(TemplateWizard wizard) {
         panels = null;
     }
@@ -117,22 +120,27 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public Panel<WizardDescriptor> current() {
         return getPanels()[index];
     }
 
+    @Override
     public String name() {
         return index + 1 + ". from " + getPanels().length;
     }
 
+    @Override
     public boolean hasNext() {
         return index < getPanels().length - 1;
     }
 
+    @Override
     public boolean hasPrevious() {
         return index > 0;
     }
 
+    @Override
     public void nextPanel() {
         if (!hasNext()) {
             throw new NoSuchElementException();
@@ -140,6 +148,7 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
         index++;
     }
 
+    @Override
     public void previousPanel() {
         if (!hasPrevious()) {
             throw new NoSuchElementException();
@@ -147,9 +156,11 @@ public final class NewFileWizardIterator implements TemplateWizard.Iterator {
         index--;
     }
 
+    @Override
     public void addChangeListener(ChangeListener l) {
     }
 
+    @Override
     public void removeChangeListener(ChangeListener l) {
     }
 }

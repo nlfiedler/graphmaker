@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -230,19 +230,20 @@ public class ZoomManager {
      * @param  center   the point at which to zoom in and keep centered.
      */
     public void setZoom(int percent, Point center) {
+        int mypercent = percent;
         if (percent < MIN_ZOOM_PERCENT) {
-            percent = MIN_ZOOM_PERCENT;
+            mypercent = MIN_ZOOM_PERCENT;
         } else if (percent > MAX_ZOOM_PERCENT) {
-            percent = MAX_ZOOM_PERCENT;
+            mypercent = MAX_ZOOM_PERCENT;
         }
 
         // Find the current center point prior to zooming.
         Point sceneCenter = scene.convertViewToScene(center);
-        zoomPercentage = percent;
+        zoomPercentage = mypercent;
         // Convert the percent value to the zoom factor Scene is expecting
         // (a double that acts as the multiplier to the component sizes and
         // locations, such that 0.5 is 50%, 1.0 is 100%, and 2.0 is 200%.
-        double factor = ((double) percent) / 100.0d;
+        double factor = ((double) mypercent) / 100.0d;
         scene.setZoomFactor(factor);
         // Setting the zoom factor alone is not enough, must force
         // validation and repainting of the scene for it to work.
@@ -273,7 +274,7 @@ public class ZoomManager {
         view.repaint();
 
         // Notify registered listeners so they may update their state.
-        fireZoomEvent(percent);
+        fireZoomEvent(mypercent);
     }
 
     /**
@@ -290,7 +291,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public ZoomComboBox(ZoomManager manager) {
+        ZoomComboBox(ZoomManager manager) {
             super(new Model());
             this.manager = manager;
             // The combo will expand to fill all available space, so
@@ -316,7 +317,7 @@ public class ZoomManager {
             /**
              * Creates a new instance of Model.
              */
-            public Model() {
+            Model() {
                 addElement(new Value(33));
                 addElement(new Value(50));
                 addElement(new Value(75));
@@ -343,7 +344,7 @@ public class ZoomManager {
              *
              * @param  value  the zoom value (e.g. 75, 100, 150).
              */
-            public Value(int value) {
+            Value(int value) {
                 this.value = value;
                 str = value + "%";
             }
@@ -388,10 +389,11 @@ public class ZoomManager {
              *
              * @param  manager  the zoom manager.
              */
-            public Listener(ZoomManager manager) {
+            Listener(ZoomManager manager) {
                 this.manager = manager;
             }
 
+            @Override
             public void actionPerformed(ActionEvent event) {
                 Object src = event.getSource();
                 String cmd = event.getActionCommand();
@@ -422,6 +424,7 @@ public class ZoomManager {
                 }
             }
 
+            @Override
             public void zoomChanged(ZoomEvent event) {
                 // Set the selected combobox value.
                 ZoomComboBox.this.removeActionListener(this);
@@ -446,7 +449,7 @@ public class ZoomManager {
          * @param  src      the source of the event.
          * @param  percent  the new zoom percent value.
          */
-        public ZoomEvent(Object src, int percent) {
+        ZoomEvent(Object src, int percent) {
             super(src);
             this.percent = percent;
         }
@@ -491,7 +494,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public FitDiagramAction(ZoomManager manager) {
+        FitDiagramAction(ZoomManager manager) {
             this.manager = manager;
             String path = NbBundle.getMessage(FitDiagramAction.class,
                     "IMG_FitDiagramAction");
@@ -505,6 +508,7 @@ public class ZoomManager {
             putValue(Action.SHORT_DESCRIPTION, desc);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Scene scene = manager.getScene();
             JScrollPane pane = (JScrollPane) SwingUtilities.getAncestorOfClass(
@@ -539,7 +543,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public FitWidthAction(ZoomManager manager) {
+        FitWidthAction(ZoomManager manager) {
             this.manager = manager;
             String path = NbBundle.getMessage(FitWidthAction.class,
                     "IMG_FitWidthAction");
@@ -553,6 +557,7 @@ public class ZoomManager {
             putValue(Action.SHORT_DESCRIPTION, desc);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Scene scene = manager.getScene();
             JScrollPane pane = (JScrollPane) SwingUtilities.getAncestorOfClass(
@@ -584,7 +589,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public ZoomDefaultAction(ZoomManager manager) {
+        ZoomDefaultAction(ZoomManager manager) {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomDefaultAction.class,
                     "IMG_ZoomDefaultAction");
@@ -598,6 +603,7 @@ public class ZoomManager {
             putValue(Action.SHORT_DESCRIPTION, desc);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             manager.setZoom(ZoomManager.DEFAULT_ZOOM_PERCENT);
         }
@@ -618,7 +624,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public ZoomInAction(ZoomManager manager) {
+        ZoomInAction(ZoomManager manager) {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomInAction.class,
                     "IMG_ZoomInAction");
@@ -632,12 +638,14 @@ public class ZoomManager {
             putValue(Action.SHORT_DESCRIPTION, desc);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             int percent = manager.getZoom();
             percent = ZoomManager.calculateZoomInValue(percent);
             manager.setZoom(percent);
         }
 
+        @Override
         public void zoomChanged(ZoomEvent event) {
             boolean enable = event.getPercent() < MAX_ZOOM_PERCENT;
             setEnabled(enable);
@@ -659,7 +667,7 @@ public class ZoomManager {
          *
          * @param  manager  the zoom manager.
          */
-        public ZoomOutAction(ZoomManager manager) {
+        ZoomOutAction(ZoomManager manager) {
             this.manager = manager;
             String path = NbBundle.getMessage(ZoomOutAction.class,
                     "IMG_ZoomOutAction");
@@ -673,12 +681,14 @@ public class ZoomManager {
             putValue(Action.SHORT_DESCRIPTION, desc);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             int percent = manager.getZoom();
             percent = ZoomManager.calculateZoomOutValue(percent);
             manager.setZoom(percent);
         }
 
+        @Override
         public void zoomChanged(ZoomEvent event) {
             boolean enable = event.getPercent() > MIN_ZOOM_PERCENT;
             setEnabled(enable);

@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.io.File;
@@ -38,6 +37,7 @@ import org.openide.util.lookup.Lookups;
  * @author  Nathan Fiedler
  */
 public class ModelSource implements Lookup.Provider {
+
     /** Cache of the ModelSource instances for each FileObject. */
     private static Map<FileObject, WeakReference<ModelSource>> foCache;
     /** Cache of the ModelSource instances for each File. */
@@ -105,13 +105,8 @@ public class ModelSource implements Lookup.Provider {
         return source;
     }
 
-    /**
-     * Returns the Lookup associated with this ModelSource. The Lookup
-     * should contain a FileObject that represents the model data.
-     *
-     * @return  Lookup of this model source.
-     */
-    public Lookup getLookup(){
+    @Override
+    public Lookup getLookup() {
         return lookup;
     }
 
@@ -120,7 +115,7 @@ public class ModelSource implements Lookup.Provider {
      *
      * @return  true if the model source file is writable, false otherwise.
      */
-    public boolean isWritable(){
+    public boolean isWritable() {
         return writable;
     }
 }

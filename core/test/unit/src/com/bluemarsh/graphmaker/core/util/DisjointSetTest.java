@@ -14,38 +14,25 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.util;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Tests the DisjointSet class.
  *
  * @author  Nathan Fiedler
  */
-public class DisjointSetTest extends TestCase {
+public class DisjointSetTest {
 
-    public DisjointSetTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        return new TestSuite(DisjointSetTest.class);
-    }
-
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
+    @Test
     public void test_DisjointSet() {
         // TODO: write unit tests for the following public methods
         // clone
@@ -64,7 +51,7 @@ public class DisjointSetTest extends TestCase {
         // subList
         // toArray
         // toString
-        DisjointSet set = new DisjointSet(10);
+        DisjointSet<Integer> set = new DisjointSet<Integer>(10);
         assertTrue(set.isEmpty());
         set.set(0, new Integer(1));
         set.set(1, new Integer(2));

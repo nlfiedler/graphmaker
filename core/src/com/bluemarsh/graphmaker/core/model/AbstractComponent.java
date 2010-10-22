@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007-2009. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.beans.PropertyChangeListener;
@@ -35,8 +34,9 @@ import java.util.Map;
  * @author Nathan Fiedler
  */
 public abstract class AbstractComponent implements Component {
+
     /** Handles property change listeners and sending events. */
-    protected PropertyChangeSupport propSupport;
+    protected final PropertyChangeSupport propSupport;
     /** Map of the client properties set in this instance. */
     private final Map<Object, Object> propertiesMap;
     /** User-defined cost of this component. */

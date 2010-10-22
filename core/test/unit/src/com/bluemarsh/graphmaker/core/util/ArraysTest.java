@@ -20,39 +20,26 @@
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.util;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Tests the Arrays class.
  */
-public class ArraysTest extends TestCase {
+public class ArraysTest {
 
-    public ArraysTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        return new TestSuite(ArraysTest.class);
-    }
-
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
+    @Test
     public void test_Arrays_join() {
         assertNull(Arrays.join(null, null));
         assertNotNull(Arrays.join(new Object[0], null));
         assertNotNull(Arrays.join(null, new Object[0]));
-        Object[] arr = new Object[] { System.out };
-        assertEquals(Arrays.join(null, arr), arr);
-        assertEquals(Arrays.join(arr, null), arr);
-        Integer[] i1 = new Integer[] { Integer.MIN_VALUE, Integer.MAX_VALUE };
-        Integer[] i2 = new Integer[] { Integer.valueOf(10), Integer.valueOf(100) };
+        Object[] arr = new Object[]{System.out};
+        assertArrayEquals(Arrays.join(null, arr), arr);
+        assertArrayEquals(Arrays.join(arr, null), arr);
+        Integer[] i1 = new Integer[]{Integer.MIN_VALUE, Integer.MAX_VALUE};
+        Integer[] i2 = new Integer[]{Integer.valueOf(10), Integer.valueOf(100)};
         arr = Arrays.join(i1, i2);
         assertTrue(arr instanceof Integer[]);
         assertEquals(arr.length, 4);

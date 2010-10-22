@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -23,7 +23,6 @@
 
 package com.bluemarsh.graphmaker.ui.editor;
 
-import com.bluemarsh.graphmaker.core.model.Model;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
@@ -112,12 +111,14 @@ public class GraphPanel extends JPanel  {
         return zoomer;
     }
 
+    @Override
     public void requestFocus() {
         super.requestFocus();
         // Ensure the graph widgets have the focus.
         sceneView.requestFocus();
     }
 
+    @Override
     public boolean requestFocusInWindow() {
         super.requestFocusInWindow();
         // Ensure the graph widgets have the focus.

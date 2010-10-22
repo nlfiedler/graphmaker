@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.beans.PropertyChangeListener;
@@ -33,6 +32,7 @@ import java.beans.PropertyChangeListener;
  * @author  Nathan Fiedler
  */
 public interface Component {
+
     /** Property name for the 'cost' property. */
     public static final String PROP_COST = "cost";
     /** Property name for the 'label' property. */

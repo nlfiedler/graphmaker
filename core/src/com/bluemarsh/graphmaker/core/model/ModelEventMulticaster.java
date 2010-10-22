@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2009. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 /**
@@ -36,6 +35,7 @@ package com.bluemarsh.graphmaker.core.model;
  * the description given in <u>Taming Java Threads</u> by Allen Holub.</p>
  */
 public class ModelEventMulticaster implements ModelListener {
+
     /** A session listener. */
     private final ModelListener listener1;
     /** A session listener. */
@@ -50,9 +50,9 @@ public class ModelEventMulticaster implements ModelListener {
      * @return  session multicast listener.
      */
     public static ModelListener add(ModelListener l1,
-                                         ModelListener l2) {
-        return (l1 == null) ? l2 :
-               (l2 == null) ? l1 : new ModelEventMulticaster(l1, l2);
+            ModelListener l2) {
+        return (l1 == null) ? l2
+                : (l2 == null) ? l1 : new ModelEventMulticaster(l1, l2);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ModelEventMulticaster implements ModelListener {
      * @return  session multicast listener.
      */
     public static ModelListener remove(ModelListener l1,
-                                            ModelListener l2) {
+            ModelListener l2) {
         if (l1 == l2 || l1 == null) {
             return null;
         } else if (l1 instanceof ModelEventMulticaster) {

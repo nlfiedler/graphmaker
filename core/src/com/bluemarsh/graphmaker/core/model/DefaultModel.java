@@ -14,20 +14,19 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2009. All Rights Reserved.
+ * are Copyright (C) 1999-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 import org.openide.ErrorManager;
 
 /**
@@ -37,6 +36,7 @@ import org.openide.ErrorManager;
  * @author  Nathan Fiedler
  */
 public class DefaultModel extends AbstractModel {
+
     /** List of vertices in the graph. */
     private List<Vertex> vertexList;
     /** List of edges in the graph. */
@@ -45,7 +45,7 @@ public class DefaultModel extends AbstractModel {
      * source vertex. The int[] array contains a list of vertex indices,
      * each one representing the target vertex adjacent to the source
      * vertex the int[] array is associated with. */
-    private Vector<int[]> adjacencies;
+    private List<int[]> adjacencies;
 
     /**
      * Creates a new instance of DefaultModel.
@@ -53,7 +53,7 @@ public class DefaultModel extends AbstractModel {
     public DefaultModel() {
         vertexList = new LinkedList<Vertex>();
         edgeList = new LinkedList<Edge>();
-        adjacencies = new Vector<int[]>();
+        adjacencies = new ArrayList<int[]>();
     }
 
     /**
@@ -67,27 +67,27 @@ public class DefaultModel extends AbstractModel {
     protected void addAdjacency(Vertex from, Vertex to) {
         checkInTransaction();
         int fromIdx = vertexList.indexOf(from);
-	int toIdx = vertexList.indexOf(to);
-	if (fromIdx == -1 || toIdx == -1 || fromIdx >= adjacencies.size()) {
+        int toIdx = vertexList.indexOf(to);
+        if (fromIdx == -1 || toIdx == -1 || fromIdx >= adjacencies.size()) {
             throw new IllegalStateException("vertices not in model");
-	}
+        }
         // Get the adjlist for the "from" vertex.
         // Set aside a new adjlist.
-        int[] list = adjacencies.elementAt(fromIdx);
-        int[] newList;
+        int[] list = adjacencies.get(fromIdx);
         if (list == null) {
-            newList = new int[1];
+            list = new int[1];
         } else {
-	    // Otherwise we need to make a new array with one more
-	    // element and copy over the old array data.
+            // Otherwise we need to make a new array with one more
+            // element and copy over the old array data.
             int size = list.length;
-            newList = new int[size + 1];
-	    System.arraycopy(list, 0, newList, 0, size);
+            int[] newList = new int[size + 1];
+            System.arraycopy(list, 0, newList, 0, size);
+            list = newList;
         }
         // Now assign last element to index of "to" vertex.
         // Set new adjacency list in adjList vector.
-        newList[newList.length - 1] = toIdx;
-        adjacencies.setElementAt(newList, fromIdx);
+        list[list.length - 1] = toIdx;
+        adjacencies.set(fromIdx, list);
     }
 
     @Override
@@ -101,15 +101,15 @@ public class DefaultModel extends AbstractModel {
         // Validate to ensure the model does not become corrupted.
         int si = vertexList.indexOf(source);
         int ti = vertexList.indexOf(target);
-        if (si == -1 || ti == -1 || si >= adjacencies.size() ||
-                ti >= adjacencies.size()) {
+        if (si == -1 || ti == -1 || si >= adjacencies.size()
+                || ti >= adjacencies.size()) {
             throw new IllegalStateException("vertices not in model");
         }
         if (source.equals(target)) {
             throw new IllegalStateException("edge endpoints are same");
         }
-        if (findEdge(source, target) != null ||
-                (!edge.isDirected() && findEdge(target, source) != null)) {
+        if (findEdge(source, target) != null
+                || (!edge.isDirected() && findEdge(target, source) != null)) {
             throw new IllegalArgumentException("edge already exists");
         }
 
@@ -121,7 +121,7 @@ public class DefaultModel extends AbstractModel {
         if (!edge.isDirected()) {
             addAdjacency(target, source);
         }
-        fireModelEvent(new ModelEvent(this, ModelEvent.Type.EDGE_ADDED));
+        fireModelEvent(new ModelEvent(this, ModelEventType.EDGE_ADDED));
         fireUndoableEdit(new EdgeAddUndoableEdit(this, edge));
     }
 
@@ -133,8 +133,8 @@ public class DefaultModel extends AbstractModel {
         }
         vertexList.add(vertex);
         // Allocate space for the new vertex, to be defined later.
-        adjacencies.setSize(adjacencies.size() + 1);
-        fireModelEvent(new ModelEvent(this, ModelEvent.Type.VERTEX_ADDED));
+        adjacencies.add(null);
+        fireModelEvent(new ModelEvent(this, ModelEventType.VERTEX_ADDED));
         fireUndoableEdit(new VertexAddUndoableEdit(this, vertex));
     }
 
@@ -143,11 +143,11 @@ public class DefaultModel extends AbstractModel {
         if (source == null || target == null || source == target) {
             return null;
         }
-	int si = vertexList.indexOf(source);
+        int si = vertexList.indexOf(source);
         int ti = vertexList.indexOf(target);
-	if (si == -1 || ti == -1) {
-	    return null;
-	}
+        if (si == -1 || ti == -1) {
+            return null;
+        }
         // Perform a quick search of the adjlist, to see if the edge exists.
         int[] list = adjacencies.get(si);
         if (list == null) {
@@ -170,14 +170,14 @@ public class DefaultModel extends AbstractModel {
         // Look through all of the edges, looking for one whose "source"
         // and "target" match the parameters.
         for (Edge edge : edgeList) {
-            if (edge.getSource().equals(source) &&
-                    edge.getTarget().equals(target)) {
+            if (edge.getSource().equals(source)
+                    && edge.getTarget().equals(target)) {
                 return edge;
             }
             // If the edge is undirected, then we can match
             // the source and target in the reverse order.
-            if (!edge.isDirected() && edge.getSource().equals(target) &&
-                    edge.getTarget().equals(source)) {
+            if (!edge.isDirected() && edge.getSource().equals(target)
+                    && edge.getTarget().equals(source)) {
                 return edge;
             }
         }
@@ -222,7 +222,7 @@ public class DefaultModel extends AbstractModel {
         List<Vertex> result = new LinkedList<Vertex>();
         int index = vertexList.indexOf(vertex);
         if (index >= 0) {
-            int[] list = adjacencies.elementAt(index);
+            int[] list = adjacencies.get(index);
             if (list != null) {
                 for (int ii : list) {
                     result.add(vertexList.get(ii));
@@ -261,17 +261,17 @@ public class DefaultModel extends AbstractModel {
         checkInTransaction();
         int si = vertexList.indexOf(source);
         int ti = vertexList.indexOf(target);
-	if (si == -1 || ti == -1 || si >= adjacencies.size()) {
+        if (si == -1 || ti == -1 || si >= adjacencies.size()) {
             throw new IllegalStateException("vertices not in model");
-	}
+        }
         // Get the adjlist for the source vertex.
-        int[] list = adjacencies.elementAt(si);
+        int[] list = adjacencies.get(si);
         if (list != null) {
             int size = list.length;
             if (size > 1) {
-		// If there is a list of more than one element then
-		// create a new list and copy over all the elements
-		// except the one pointing to the target vertex.
+                // If there is a list of more than one element then
+                // create a new list and copy over all the elements
+                // except the one pointing to the target vertex.
                 int[] newList = new int[size - 1];
                 int i = 0;
                 int j = 0;
@@ -280,22 +280,22 @@ public class DefaultModel extends AbstractModel {
                     // If we don't have the element to be removed
                     // then we must copy this one to the new array.
                     // (i.e. we skip over the one to be removed)
-		    try {
-			if (list[j] != ti) {
-			    newList[i] = list[j];
-			    i++;
-			}
-			j++;
-		    } catch (ArrayIndexOutOfBoundsException aioobe) {
-			throw new IllegalStateException(
+                    try {
+                        if (list[j] != ti) {
+                            newList[i] = list[j];
+                            i++;
+                        }
+                        j++;
+                    } catch (ArrayIndexOutOfBoundsException aioobe) {
+                        throw new IllegalStateException(
                                 "source vertex not in model", aioobe);
-		    }
+                    }
                 }
                 // Save new array reference.
-                adjacencies.setElementAt(newList, si);
+                adjacencies.set(si, newList);
             } else {
-		// List only has one element left, remove it.
-                adjacencies.setElementAt(null, si);
+                // List only has one element left, remove it.
+                adjacencies.set(si, null);
             }
         }
     }
@@ -316,7 +316,7 @@ public class DefaultModel extends AbstractModel {
         if (!edge.isDirected()) {
             removeAdjacency(target, source);
         }
-        fireModelEvent(new ModelEvent(this, ModelEvent.Type.EDGE_REMOVED));
+        fireModelEvent(new ModelEvent(this, ModelEventType.EDGE_REMOVED));
         fireUndoableEdit(new EdgeRemoveUndoableEdit(this, edge));
     }
 
@@ -337,7 +337,7 @@ public class DefaultModel extends AbstractModel {
         }
         // Next remove the vertex itself.
         vertexList.remove(idx);
-        adjacencies.removeElementAt(idx);
+        adjacencies.remove(idx);
 
         // Need to adjust the table, now that a row is missing.
         for (int[] list : adjacencies) {
@@ -352,7 +352,7 @@ public class DefaultModel extends AbstractModel {
                 }
             }
         }
-        fireModelEvent(new ModelEvent(this, ModelEvent.Type.VERTEX_REMOVED));
+        fireModelEvent(new ModelEvent(this, ModelEventType.VERTEX_REMOVED));
         fireUndoableEdit(new VertexRemoveUndoableEdit(this, vertex));
     }
 

@@ -14,51 +14,37 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007-2008. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.util;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Tests the FibonacciHeap class.
  *
  * @author  Nathan Fiedler
  */
-public class FibonacciHeapTest extends TestCase {
+public class FibonacciHeapTest {
 
-    public FibonacciHeapTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        return new TestSuite(FibonacciHeapTest.class);
-    }
-
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    /**
-     * Inserts a set of elements, decreases some of their keys, then
-     * extracts them by key order and ensures everything comes out
-     * in the order expected.
-     */
+    @Test
     public void test_Correctness() {
+        // Inserts a set of elements, decreases some of their keys, then
+        // extracts them by key order and ensures everything comes out
+        // in the order expected.
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
-        Hashtable<Integer, FibonacciHeap.Node> entries =
-                new Hashtable<Integer, FibonacciHeap.Node>();
+        Map<Integer, FibonacciHeap.Node> entries =
+                new HashMap<Integer, FibonacciHeap.Node>();
         for (int ii = 100; ii < 200; ii++) {
             Integer it = new Integer(ii);
             entries.put(it, heap.insert(it, ii));
@@ -75,12 +61,13 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(entry, heap.min());
         Object o = heap.removeMin();
         assertEquals(new Integer(160), o);
+        entries.remove((Integer) o);
         // Second last should now be the min value.
-        entry = entries.get(new Integer(140));
+        entry = entries.remove(new Integer(140));
         assertEquals(entry, heap.min());
         heap.delete(entry);
         // Remove the third smallest entry.
-        entry = entries.get(new Integer(110));
+        entry = entries.remove(new Integer(110));
         heap.delete(entry);
         // Original min value should now be the min.
         entry = entries.get(new Integer(100));
@@ -90,9 +77,7 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, heap.size());
     }
 
-    /**
-     * Test a heap consisting of all duplicate keys.
-     */
+    @Test
     public void test_Duplicates() {
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
@@ -114,11 +99,10 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, heap.size());
     }
 
-    /**
-     * Test a heap consisting of all duplicate keys, except for one
-     * whose value is greater than the others.
-     */
+    @Test
     public void test_Duplicates_Larger() {
+        // Test a heap consisting of all duplicate keys, except for one
+        // whose value is greater than the others.
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
@@ -141,11 +125,10 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, heap.size());
     }
 
-    /**
-     * Test a heap consisting of all duplicate keys, except for one
-     * whose value is less than the others.
-     */
+    @Test
     public void test_Duplicates_Smaller() {
+        // Test a heap consisting of all duplicate keys, except for one
+        // whose value is less than the others.
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
@@ -168,13 +151,12 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, heap.size());
     }
 
-    /**
-     * This is a stress test that inserts numerous random elements and
-     * ensures that they come out in increasing order by value. This
-     * extreme case uncovered multiple bugs in nearly every public
-     * implementation of fibonacci heap.
-     */
+    @Test
     public void test_InsertRemoveMin() {
+        // This is a stress test that inserts numerous random elements and
+        // ensures that they come out in increasing order by value. This
+        // extreme case uncovered multiple bugs in nearly every public
+        // implementation of fibonacci heap.
         FibonacciHeap heap = new FibonacciHeap();
         assertTrue(heap.isEmpty());
         assertEquals(0, heap.size());
@@ -186,7 +168,7 @@ public class FibonacciHeapTest extends TestCase {
             int r = random.nextInt();
             if (r < 0) {
                 // Insure only positive values are stored.
-                r = r + Integer.MAX_VALUE;
+                r += Integer.MAX_VALUE;
             }
             heap.insert(new Integer(r), r);
         }
@@ -207,6 +189,7 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, heap.size());
     }
 
+    @Test
     public void test_Union() {
         FibonacciHeap heap1 = new FibonacciHeap();
         assertTrue(heap1.isEmpty());
@@ -245,6 +228,7 @@ public class FibonacciHeapTest extends TestCase {
         assertEquals(0, joined.size());
     }
 
+    @Test
     public void test_MinComparison() {
         // Test case contributed by Travis Wheeler which exposed a problem
         // when the min pointer had not been adjusted even though the start
@@ -360,7 +344,8 @@ public class FibonacciHeapTest extends TestCase {
         int i = 0;
         while (!heap.isEmpty()) {
             Double d = (Double) heap.removeMin();
-            assertEquals(vals[i++], d.doubleValue());
+            assertEquals(vals[i], d.doubleValue(), 0.0001);
+            i++;
         }
     }
 }

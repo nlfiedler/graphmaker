@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2009. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.beans.PropertyChangeListener;
@@ -47,6 +46,7 @@ import javax.swing.undo.UndoableEditSupport;
  * @author Nathan Fiedler
  */
 public abstract class AbstractModel implements Model {
+
     /** Handles property change listeners and sending events. */
     private PropertyChangeSupport propSupport;
     /** Handles undoable edit listeners and sending events. */
@@ -164,6 +164,15 @@ public abstract class AbstractModel implements Model {
         }
     }
 
+    /**
+     * Accessor method for the model listeners list.
+     *
+     * @return  model listeners list.
+     */
+    protected ModelListener getModelListeners() {
+        return modelListeners;
+    }
+
     @Override
     public synchronized boolean isInTransaction() {
         return transaction != null;
@@ -253,6 +262,7 @@ public abstract class AbstractModel implements Model {
      * Represents a set of changes to be made to the model.
      */
     private static class Transaction {
+
         /** The thread that started this transaction. */
         private Thread transactionThread;
         /** List of model events to be fired when transaction ends. */
@@ -269,7 +279,7 @@ public abstract class AbstractModel implements Model {
          * @param  editSupport  where undoable edits are collected;
          *                      if null, undoable edits are suppressed.
          */
-        public Transaction(AbstractModel model,
+        Transaction(AbstractModel model,
                 UndoableEditSupport editSupport) {
             this.model = model;
             this.editSupport = editSupport;
@@ -314,7 +324,7 @@ public abstract class AbstractModel implements Model {
         public void fireEvents() {
             ModelListener ml;
             synchronized (model) {
-                ml = model.modelListeners;
+                ml = model.getModelListeners();
             }
             if (ml != null) {
                 for (ModelEvent event : modelEvents) {
@@ -328,6 +338,7 @@ public abstract class AbstractModel implements Model {
      * An UndoableEditSupport that creates a ModelUndoableEdit compound edit.
      */
     private static class ModelUndoableEditSupport extends UndoableEditSupport {
+
         /** The model on which the edits are applied. */
         private AbstractModel model;
 
@@ -336,7 +347,7 @@ public abstract class AbstractModel implements Model {
          *
          * @param  model  the model on which the edits are applied.
          */
-        public ModelUndoableEditSupport(AbstractModel model) {
+        ModelUndoableEditSupport(AbstractModel model) {
             super(model);
             this.model = model;
         }
@@ -354,11 +365,12 @@ public abstract class AbstractModel implements Model {
             ((ModelUndoableEdit) compoundEdit).rollback();
         }
     }
-            
+
     /**
      * A compound undoable edit that manages the model transaction.
      */
     private static class ModelUndoableEdit extends CompoundEdit {
+
         /** silence compiler warnings */
         private static final long serialVersionUID = 1L;
         /** The model on which the edits are applied. */
@@ -369,7 +381,7 @@ public abstract class AbstractModel implements Model {
          *
          * @param  model  the model on which the edits are applied.
          */
-        public ModelUndoableEdit(AbstractModel model) {
+        ModelUndoableEdit(AbstractModel model) {
             super();
             this.model = model;
         }

@@ -14,15 +14,15 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -37,6 +37,7 @@ import org.openide.util.NbBundle;
  * @author Nathan Fiedler
  */
 public class VertexAddUndoableEdit extends AbstractUndoableEdit {
+
     /** silence compiler warnings */
     private static final long serialVersionUID = 1L;
     /** The model on which to perform the operations. */
@@ -61,8 +62,8 @@ public class VertexAddUndoableEdit extends AbstractUndoableEdit {
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof VertexAddUndoableEdit) {
             VertexAddUndoableEdit ue = (VertexAddUndoableEdit) anEdit;
-            if (model.equals(ue.model)) {
-                vertices.addAll(ue.vertices);
+            if (model.equals(ue.getModel())) {
+                vertices.addAll(ue.getVertices());
                 ue.die();
                 return true;
             }
@@ -72,8 +73,26 @@ public class VertexAddUndoableEdit extends AbstractUndoableEdit {
 
     @Override
     public void die() {
-	super.die();
+        super.die();
         vertices.clear();
+    }
+
+    /**
+     * Access method for the list of vertices.
+     *
+     * @return  the vertex list.
+     */
+    protected List<Vertex> getVertices() {
+        return Collections.unmodifiableList(vertices);
+    }
+
+    /**
+     * Access method for model.
+     *
+     * @return  the model.
+     */
+    protected Model getModel() {
+        return model;
     }
 
     @Override

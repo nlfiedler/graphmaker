@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2004-2007. All Rights Reserved.
+ * are Copyright (C) 2004-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -32,6 +32,7 @@ import org.openide.util.NbBundle;
  *
  * @author  Nathan Fiedler
  */
+@SuppressWarnings("rawtypes")
 public class ExceptionProperty extends PropertySupport.ReadOnly {
     /** Number of exception properties created so far. */
     private static int errorCounter = 1;
@@ -52,6 +53,7 @@ public class ExceptionProperty extends PropertySupport.ReadOnly {
         throwable = t;
     }
 
+    @Override
     public Object getValue() throws IllegalAccessException,
             InvocationTargetException {
         return throwable.getMessage();

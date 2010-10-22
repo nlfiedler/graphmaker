@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -45,7 +45,7 @@ public class NewFileWizardPanel1 implements WizardDescriptor.Panel,
     /** The visual component that displays this panel. */
     private NewFileVisualPanel1 component;
     /** Set of change listeners, if any. */
-    private Set<ChangeListener> listeners = new HashSet<ChangeListener>(1);
+    private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1);
     /** True if the visual panel input is valid. */
     private boolean isValid;
     /** The wizard descriptor. */
@@ -74,6 +74,7 @@ public class NewFileWizardPanel1 implements WizardDescriptor.Panel,
         return null;
     }
 
+    @Override
     public Component getComponent() {
         if (component == null) {
             component = new NewFileVisualPanel1(wizard);
@@ -83,20 +84,24 @@ public class NewFileWizardPanel1 implements WizardDescriptor.Panel,
         return component;
     }
 
+    @Override
     public HelpCtx getHelp() {
         return HelpCtx.DEFAULT_HELP;
     }
 
+    @Override
     public boolean isValid() {
         return isValid;
     }
 
+    @Override
     public void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
             listeners.add(l);
         }
     }
 
+    @Override
     public void removeChangeListener(ChangeListener l) {
         synchronized (listeners) {
             listeners.remove(l);
@@ -117,15 +122,18 @@ public class NewFileWizardPanel1 implements WizardDescriptor.Panel,
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         isValid = ((Boolean) evt.getNewValue()).booleanValue();
         // We are listening only to the 'valid' propety changes.
         fireChangeEvent();
     }
 
+    @Override
     public void readSettings(Object settings) {
     }
 
+    @Override
     public void storeSettings(Object settings) {
     }
 }

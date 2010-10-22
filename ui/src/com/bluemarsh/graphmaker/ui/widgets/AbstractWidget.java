@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -150,6 +150,7 @@ public abstract class AbstractWidget<T extends Component> extends Widget
                 TopComponent.class, getScene().getView());
     }
 
+    @Override
     public Lookup getLookup() {
         return widgetLookup;
     }
@@ -227,6 +228,7 @@ public abstract class AbstractWidget<T extends Component> extends Widget
 //        return node != null && node.equals(getComponent());
 //    }
 
+    @Override
     protected void notifyStateChanged(ObjectState oldState, ObjectState state) {
         super.notifyStateChanged(oldState, state);
         if (state.isSelected()) {
@@ -239,6 +241,7 @@ public abstract class AbstractWidget<T extends Component> extends Widget
         repaint();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         // TODO: update the widget in an appropriate manner
     }

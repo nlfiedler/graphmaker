@@ -14,15 +14,15 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -37,12 +37,13 @@ import org.openide.util.NbBundle;
  * @author Nathan Fiedler
  */
 public class EdgeAddUndoableEdit extends AbstractUndoableEdit {
+
     /** silence compiler warnings */
     private static final long serialVersionUID = 1L;
     /** The model on which to perform the operations. */
-    private Model model;
+    private final Model model;
     /** List of affected edges. */
-    private List<Edge> edges;
+    private final List<Edge> edges;
 
     /**
      * Creates a new instance of EdgeAddUndoableEdit.
@@ -61,8 +62,8 @@ public class EdgeAddUndoableEdit extends AbstractUndoableEdit {
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof EdgeAddUndoableEdit) {
             EdgeAddUndoableEdit ue = (EdgeAddUndoableEdit) anEdit;
-            if (model.equals(ue.model)) {
-                edges.addAll(ue.edges);
+            if (model.equals(ue.getModel())) {
+                edges.addAll(ue.getEdges());
                 ue.die();
                 return true;
             }
@@ -72,8 +73,26 @@ public class EdgeAddUndoableEdit extends AbstractUndoableEdit {
 
     @Override
     public void die() {
-	super.die();
+        super.die();
         edges.clear();
+    }
+
+    /**
+     * Access method for the list of edges.
+     *
+     * @return  the edge list.
+     */
+    protected List<Edge> getEdges() {
+        return Collections.unmodifiableList(edges);
+    }
+
+    /**
+     * Access method for model.
+     *
+     * @return  the model.
+     */
+    protected Model getModel() {
+        return model;
     }
 
     @Override

@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2009. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.beans.ExceptionListener;
@@ -44,6 +43,7 @@ import org.openide.filesystems.FileObject;
  * @author Nathan Fiedler
  */
 public class DefaultModelAccess implements ModelAccess {
+
     /** The assigned model source instance. */
     private ModelSource modelSource;
     /** If non-null, the lock used to obtain output stream. */
@@ -117,6 +117,7 @@ public class DefaultModelAccess implements ModelAccess {
             InputStream is = getInputStream();
             decoder = new XMLDecoder(is);
             decoder.setExceptionListener(new ExceptionListener() {
+
                 @Override
                 public void exceptionThrown(Exception e) {
                     ErrorManager.getDefault().notify(e);

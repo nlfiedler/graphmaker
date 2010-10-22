@@ -14,39 +14,25 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2007. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import java.io.File;
 import java.io.IOException;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Tests the model access concrete implementation via the ModelAccess API.
  *
  * @author  Nathan Fiedler
  */
-public class ModelAccessTest extends TestCase {
-
-    public ModelAccessTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        return new TestSuite(ModelAccessTest.class);
-    }
-
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
+public class ModelAccessTest {
 
     private void deleteFile(File file) {
         if (file != null) {
@@ -54,6 +40,7 @@ public class ModelAccessTest extends TestCase {
         }
     }
 
+    @Test
     public void test_ModelAccess() {
         ModelFactory factory = ModelProvider.getModelFactory();
         Model model = factory.createModel();

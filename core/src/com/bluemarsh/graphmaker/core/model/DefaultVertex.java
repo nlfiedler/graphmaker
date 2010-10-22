@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2009. All Rights Reserved.
+ * are Copyright (C) 1999-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 /**
@@ -29,6 +28,7 @@ package com.bluemarsh.graphmaker.core.model;
  * @author  Nathan Fiedler
  */
 public class DefaultVertex extends AbstractComponent implements Vertex {
+
     /** Position of the center of this vertex on the x axis. */
     private int x;
     /** Position of the center of this vertex on the y axis. */
@@ -50,9 +50,9 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
 
     @Override
     public double computeDistance(Vertex v) {
-	return Math.sqrt(Math.pow(x - v.getX(), 2) +
-                         Math.pow(y - v.getY(), 2) +
-                         Math.pow(z - v.getZ(), 2));
+        return Math.sqrt(Math.pow(x - v.getX(), 2)
+                + Math.pow(y - v.getY(), 2)
+                + Math.pow(z - v.getZ(), 2));
     }
 
     @Override
@@ -67,27 +67,27 @@ public class DefaultVertex extends AbstractComponent implements Vertex {
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof Vertex) {
-	    Vertex v = (Vertex) obj;
-	    if (v.getX() == x && v.getY() == y && v.getZ() == z) {
-		return true;
-	    }
-	}
+            Vertex v = (Vertex) obj;
+            if (v.getX() == x && v.getY() == y && v.getZ() == z) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public int getDepth() {
-	return depth;
+        return depth;
     }
 
     @Override
     public int getHeight() {
-	return height;
+        return height;
     }
 
     @Override
     public int getWidth() {
-	return width;
+        return width;
     }
 
     @Override

@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2006-2008. All Rights Reserved.
+ * are Copyright (C) 2006-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 import org.openide.util.Lookup;
@@ -31,6 +30,7 @@ import org.openide.util.Lookup;
  * @author Nathan Fiedler
  */
 public class ModelProvider {
+
     /** The ModelFactory instance, if it has already been retrieved. */
     private static ModelFactory modelFactory;
 

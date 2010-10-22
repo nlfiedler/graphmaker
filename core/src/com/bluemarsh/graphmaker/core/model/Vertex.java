@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1999-2007. All Rights Reserved.
+ * are Copyright (C) 1999-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 /**
@@ -30,6 +29,7 @@ package com.bluemarsh.graphmaker.core.model;
  * @author Nathan Fiedler
  */
 public interface Vertex extends Component {
+
     /** Property name. */
     public static final String PROP_DEPTH = "depth";
     /** Property name. */

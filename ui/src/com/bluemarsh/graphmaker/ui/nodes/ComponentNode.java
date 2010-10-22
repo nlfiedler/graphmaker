@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -134,7 +134,7 @@ public abstract class ComponentNode<T extends Component> extends AbstractNode
      * @param  setter  name of setter method for property value (may be null).
      * @return  new property.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     protected static Node.Property createProperty(String key, Object inst,
             String getter, String setter) {
         Property prop = null;
@@ -200,6 +200,7 @@ public abstract class ComponentNode<T extends Component> extends AbstractNode
      */
     protected abstract Action[] getNodeActions();
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         String name = event.getPropertyName();
         if (name.equals(Component.PROP_LABEL)) {

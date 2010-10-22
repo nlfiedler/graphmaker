@@ -14,7 +14,7 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 2007. All Rights Reserved.
+ * are Copyright (C) 2007-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
@@ -42,18 +42,21 @@ public class GraphMakerScene extends GraphScene<Vertex, Edge> {
     public GraphMakerScene() {
     }
 
+    @Override
     protected Widget attachNodeWidget(Vertex node) {
         Widget widget = WidgetFactory.getDefault().createWidget(this, node);
         addChild(widget);
         return widget;
     }
 
+    @Override
     protected Widget attachEdgeWidget(Edge edge) {
         Widget widget = WidgetFactory.getDefault().createWidget(this, edge);
         addChild(widget);
         return widget;
     }
 
+    @Override
     protected void attachEdgeSourceAnchor(Edge edge, Vertex oldSource, Vertex source) {
         throw new UnsupportedOperationException("Not supported yet.");
         // Widget sourceNodeWidget = findWidget(source);
@@ -62,6 +65,7 @@ public class GraphMakerScene extends GraphScene<Vertex, Edge> {
         // edgeWidget.setSourceAnchor(sourceAnchor);
     }
 
+    @Override
     protected void attachEdgeTargetAnchor(Edge arg0, Vertex oldTarget, Vertex target) {
         throw new UnsupportedOperationException("Not supported yet.");
         // Widget targetNodeWidget = findWidget(target);

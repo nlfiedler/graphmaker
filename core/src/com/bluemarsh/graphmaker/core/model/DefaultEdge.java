@@ -14,13 +14,12 @@
  *
  * The Original Software is GraphMaker. The Initial Developer of the Original
  * Software is Nathan L. Fiedler. Portions created by Nathan L. Fiedler
- * are Copyright (C) 1997-2009. All Rights Reserved.
+ * are Copyright (C) 1997-2010. All Rights Reserved.
  *
  * Contributor(s): Nathan L. Fiedler.
  *
  * $Id$
  */
-
 package com.bluemarsh.graphmaker.core.model;
 
 /**
@@ -29,6 +28,7 @@ package com.bluemarsh.graphmaker.core.model;
  * @author  Nathan Fiedler
  */
 public class DefaultEdge extends AbstractComponent implements Edge {
+
     /** Vertex that begins this edge. */
     private Vertex source;
     /** Vertex that ends this edge. */
@@ -46,7 +46,7 @@ public class DefaultEdge extends AbstractComponent implements Edge {
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof DefaultEdge) {
             DefaultEdge e = (DefaultEdge) obj;
-            if (e.target == target && e.source == source) {
+            if (e.getTarget() == getTarget() && e.getSource() == getSource()) {
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class DefaultEdge extends AbstractComponent implements Edge {
         // as the screen coordinate system is flipped along the
         // x-axis from the Cartesian coordinate system.
         double angle = Math.atan2(source.getY() - target.getY(),
-                                  target.getX() - source.getX());
+                target.getX() - source.getX());
         if (angle < 0) {
             // atan2 returns angle in phase -pi to pi, which means
             // we have to convert the answer into 0 to 2pi range.
