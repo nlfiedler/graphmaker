@@ -1,0 +1,13 @@
+/build
+/core/build
+/core/nbproject/private
+/graphlib/build
+/graphlib/nbproject/private
+/help/build
+/help/nbproject/private
+/installer/dist
+/installer/build
+/installer/nbproject/private
+/nbproject/private
+/ui/build
+/ui/nbproject/private
