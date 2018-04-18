@@ -1,14 +1,16 @@
 ## GraphMaker ##
 
-GraphMaker is a Java application to create graphs consisting of nodes
+GraphMaker is an incomplete Java application to create graphs consisting of nodes
 connected by directed and undirected edges, and perform various graph
 operations on them, such as breadth-first-search and minimum-spanning-tree.
 
+This application was never finished and in its current state accomplishes very little.
+
 ### Fibonacci Heap ###
 
-One remarkable thing about this project is that it has a very fast and correct
+The one remarkable thing about this project is that it has a very fast and correct
 Java implementation of the [Fibonacci Heap](http://en.wikipedia.org/wiki/Fibonacci_heap)
-data structure.
+data structure. It is found in the `core/src/com/bluemarsh/graphmaker/core/util` directory.
 
 ## TODO ##
 
